@@ -1,4 +1,4 @@
-una volta apportate le modifiche sul pc:
+una volta apportate le modifiche sul primo pc:
 git add .
 git commit -m ""
 git push
