@@ -5,7 +5,7 @@ tree
 pstree
 pwd
 cd ./"nome_directory"
-cd ../"nome_directory"
+cd ..
 ps aux
 
 gcc "programma".c
