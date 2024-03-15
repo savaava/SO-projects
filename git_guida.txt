@@ -1,0 +1,7 @@
+una volta apportate le modifiche:
+git add .
+git commit -m ""
+git push
+
+sull'altro pc:
+git pull
