@@ -1,1 +1,16 @@
-touch
+ls 
+la
+ls -al
+tree
+pstree
+pwd
+cd ./"nome_directory"
+cd ../"nome_directory"
+ps aux
+
+gcc "programma".c
+.a/.out
+
+touch "nomefile"."estensione"
+mkdir
+rm
