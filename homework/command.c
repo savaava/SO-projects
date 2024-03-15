@@ -11,16 +11,16 @@ int main(int argc, char*argv[]){
         exit(0);
     }else if(argc-1 >=2){
         fprintf(stderr,"è stato inserito più di 1 comando da eseguire!\n");
-        exit(1);
+        exit(0);
     }
     
     pid_t pid=fork();
     
     if(pid<0){
         fprintf(stderr,"forked failed!");
-        exit(2);
+        exit(1);
     }else if(pid==0){
-        char*pathname=(char*)malloc(100*sizeof(char));
+        char pathname[100];
         strcpy(pathname,"/bin/");
         strcat(pathname,argv[1]);
         printf("Il comando inserito è: %s\n",pathname);
