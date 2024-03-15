@@ -14,3 +14,5 @@ gcc "programma".c
 touch "nomefile"."estensione"
 mkdir
 rm
+
+
