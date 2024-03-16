@@ -11,8 +11,8 @@ ps aux
 gcc "programma".c
 .a/.out
 
-touch "nomefile"."estensione"
-mkdir
-rm
+touch "nome_file"."estensione"
+mkdir "nome_directory"
+rm "nome"
 
 
