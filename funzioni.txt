@@ -1,7 +1,15 @@
+MEMORIA CONDIVISA:
+
 segment_id= shmget( IPC_PRIVATE, MAX_SIZE, S_IRUSR|S_IWUSR)
 ptr=        shmat(segment_id, NULL, 0)
             shmdt(ptr)
             shmctl(segment_id, IPC_RMID, NULL)
             
+            
+SCAMBIO DI MESSAGGI:
 
+int verifica= pipe(fd) 
+              close(fd)
+int inviati=  write(fd[1], message_ptr, size)
+int ricevuti= read(fd[0], message_ptr, size)
             
