@@ -1,5 +1,11 @@
-MEMORIA CONDIVISA:
+pid_t pid= fork()
+	   wait(NULL)
+	   sleep(secondi)
+	   getpid()
+	   getppid()
+	   execlp(char*pathname, char*arg0, char*arg1, ..., NULL)
 
+MEMORIA CONDIVISA:
 segment_id= shmget( IPC_PRIVATE, MAX_SIZE, S_IRUSR|S_IWUSR)
 ptr=        shmat(segment_id, NULL, 0)
             shmdt(ptr)
@@ -7,9 +13,7 @@ ptr=        shmat(segment_id, NULL, 0)
             
             
 SCAMBIO DI MESSAGGI:
-
 int verifica= pipe(fd) 
               close(fd)
 int inviati=  write(fd[1], message_ptr, size)
-int ricevuti= read(fd[0], message_ptr, size)
-            
+int ricevuti= read(fd[0], message_ptr, size)        

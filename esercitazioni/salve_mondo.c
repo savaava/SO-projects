@@ -10,7 +10,7 @@ World!" che verrà poi letta dal processo padre.*/
 #include <sys/wait.h>
 #include <sys/shm.h>
 #include<sys/stat.h>
-
+  
 #define MAX_SIZE 1
 
 int main(){
