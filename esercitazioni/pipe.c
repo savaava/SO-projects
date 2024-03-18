@@ -15,6 +15,7 @@ l’eventuale frammentazione del messaggio) e lo stampa a video.*/
 
 int main(){
     int fd[2];
+    int i;
     int verifica=pipe(fd);
     int messaggio[N];
     
@@ -31,13 +32,14 @@ int main(){
     }else if(pid==0){
         close(fd[0]);
         
-        for(int i=0; i<N-1; i++)
+        for(i=0; i<N; i++)
             messaggio[i]=i;
-        printf("weeee NEL FIGLIO: %ld\n",sizeof(messaggio));
+            
+        printf("Sono il figlio e adesso scrivo sulla pipe\n");    
         int  inviati=write(fd[1], messaggio, sizeof(messaggio));
         printf("inviati=%d\n",inviati);
         
-        if(inviati<N){
+        if(inviati<sizeof(messaggio)){
             fprintf(stderr,"Errore nel write");
             close(fd[1]);
             return 1;
@@ -57,12 +59,11 @@ int main(){
             fprintf(stderr,"Errore nella ricezione del messaggio!\n");
             close(fd[0]);
             return 1;
-        }else if(ricevuti<N)
+        }else if(ricevuti<sizeof(messaggio))
             fprintf(stderr,"messaggio parziale!");
         
-        printf("Sono il padre e questo è il messaggio generato dal figlio:\n");
-        printf("weeee NEL PADRE: %ld\n",sizeof(messaggio));
-        for(int i=0;i<N;i++)
+        printf("Sono il padre, ricevuti=%d, e questo è il messaggio generato dal figlio:\n",ricevuti);
+        for(i=0;i<N;i++)
             printf("messaggio[%d]=%d\n",i,messaggio[i]);
         
         close(fd[0]);
@@ -76,5 +77,5 @@ int main(){
 ๏ Scambio “byte oriented”: il sistema non preserva la delimitazione dei
 messaggi
 ๏ Invio non bloccante; ricezione bloccante*
-๏ Ma attenzione: la ricezione potrebbe terminare con un messaggio
+๏ la ricezione potrebbe terminare con un messaggio
 incompleto!*/

@@ -1,19 +1,18 @@
-pid_t pid= fork()
+pid_t      fork()
 	   wait(NULL)
 	   sleep(secondi)
-	   getpid()
-	   getppid()
+int	   getpid()   -> (pid effettivo del processo corrente)
+int   	   getppid()  -> (pid effettivo del processo padre del processo corrente)
 	   execlp(char*pathname, char*arg0, char*arg1, ..., NULL)
 
 MEMORIA CONDIVISA:
 segment_id= shmget( IPC_PRIVATE, MAX_SIZE, S_IRUSR|S_IWUSR)
 ptr=        shmat(segment_id, NULL, 0)
             shmdt(ptr)
-            shmctl(segment_id, IPC_RMID, NULL)
-            
+            shmctl(segment_id, IPC_RMID, NULL)            
             
 SCAMBIO DI MESSAGGI:
-int verifica= pipe(fd) 
-              close(fd)
-int inviati=  write(fd[1], message_ptr, size)
-int ricevuti= read(fd[0], message_ptr, size)        
+int verifica= pipe(fd)  -> (-1 , 0)
+              close(fd) 
+int inviati=  write(fd[1], message_ptr, size)  -> (numero_byte_inviati , <size)
+int ricevuti= read(fd[0], message_ptr, size)   -> (-1 , 0 , <size)    
