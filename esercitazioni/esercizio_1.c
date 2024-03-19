@@ -1,8 +1,3 @@
-/*Scrivere un programma che crei un un’area di memoria condivisa e
-successivamente crei un processo figlio. Il processo figlio inserisce
-nell’area condivisa un’informazione rappresentata dalla stringa "Hello
-World!" che verrà poi letta dal processo padre.*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -10,8 +5,8 @@ World!" che verrà poi letta dal processo padre.*/
 #include <sys/wait.h>
 #include <sys/shm.h>
 #include<sys/stat.h>
-  
-#define MAX_SIZE 1
+
+#define MAX_SIZE 200
 
 int main(){
     int segment_id=shmget(IPC_PRIVATE, MAX_SIZE, S_IRUSR|S_IWUSR);
@@ -27,16 +22,17 @@ int main(){
         shmctl(segment_id, IPC_RMID, NULL); 
         return 1;
     }else if(pid==0){
-        printf("Sono il figlio e carico la stringa salve_mondo\n");
+        printf("Sono il figlio,  ");
         char*string=(char*)shmat(segment_id, NULL, 0);
-        strcpy(string,"salve_mondo\n");
+        printf("Inserire una parola di max %d caratteri: ",MAX_SIZE-1);
+        scanf("%s",string);
         shmdt(string);
         return 0;
     }else if(pid>0){
         wait(NULL);
         char*stringa=(char*)shmat(segment_id, NULL, 0);
         printf("Sono il padre e ");
-        printf("la stringa inserita da mio figlio è: %s",stringa);
+        printf("la stringa inserita da mio figlio è: %s\n",stringa);
         shmdt(stringa);
         shmctl(segment_id, IPC_RMID, NULL);
         return 0;

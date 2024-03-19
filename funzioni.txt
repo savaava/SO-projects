@@ -6,7 +6,7 @@ int   	   getppid()  -> (pid effettivo del processo padre del processo corrente)
 	   execlp(char*pathname, char*arg0, char*arg1, ..., NULL)
 
 MEMORIA CONDIVISA:
-segment_id= shmget( IPC_PRIVATE, MAX_SIZE, S_IRUSR|S_IWUSR)
+segment_id= shmget( IPC_PRIVATE, MAX_SIZE, S_IRUSR|S_IWUSR)  -> (id, <0)
 ptr=        shmat(segment_id, NULL, 0)
             shmdt(ptr)
             shmctl(segment_id, IPC_RMID, NULL)            
