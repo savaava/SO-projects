@@ -53,7 +53,8 @@ int main(){
             if(inviati<sizeof(coords)){
                 printf("Errore");
                 return 1;
-            }            
+            }
+            sleep(1);
         }
         
         close(fd[1]);

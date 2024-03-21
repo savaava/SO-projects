@@ -1,5 +1,6 @@
 una volta apportate le modifiche sul primo pc:
 git add .
+git reset
 git commit -m ""
 git push
 
