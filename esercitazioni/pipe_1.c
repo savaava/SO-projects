@@ -25,11 +25,11 @@ int main(){
     }else if(pid==0){
         close(fd[0]);
         
-        printf("Inserire il messagio intero:");
+        printf("Sono il figlio, Inserire il messaggio intero:");
         scanf("%d",&messaggio);
               
         int  inviati=write(fd[1], &messaggio, sizeof(messaggio));
-        printf("inviati=%d\n",inviati);
+        printf("byte_inviati=%d\n",inviati);
         
         if(inviati<sizeof(messaggio)){
             fprintf(stderr,"Errore nel write");
@@ -52,8 +52,7 @@ int main(){
         }else if(ricevuti<sizeof(messaggio))
             fprintf(stderr,"messaggio parziale!");
         
-        printf("Sono il padre, ricevuti=%d, e questo è il messaggio generato dal figlio:\n",ricevuti);
-        printf("E il mesagio è: %d\n",messaggio);
+        printf("\nSono il padre, byte_ricevuti=%d, e questo è il messaggio generato dal figlio: %d\n",ricevuti,messaggio);
         
         close(fd[0]);
         

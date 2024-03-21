@@ -20,7 +20,7 @@ int main(){
     int messaggio[N];
     
     if(verifica==-1){
-        fprintf(stderr,"Non è stata creata la pipe anonima!\n");
+        fprintf(stderr,"Errore nella creazione della pipe anonima!\n");
         return 1;
     }
     
@@ -37,21 +37,18 @@ int main(){
             
         printf("Sono il figlio e adesso scrivo sulla pipe\n");    
         int  inviati=write(fd[1], messaggio, sizeof(messaggio));
-        printf("inviati=%d\n",inviati);
+        printf("byte_inviati=%d\n",inviati);
         
-        if(inviati<sizeof(messaggio)){
+        if(inviati!=sizeof(messaggio)){
             fprintf(stderr,"Errore nel write");
             close(fd[1]);
             return 1;
         }
         
-        close(fd[1]);
-        
+        close(fd[1]);        
         return 0;
     }else{
         close(fd[1]);
-        
-        wait(NULL);
         
         int ricevuti=read(fd[0], messaggio, sizeof(messaggio));
         
@@ -62,12 +59,11 @@ int main(){
         }else if(ricevuti<sizeof(messaggio))
             fprintf(stderr,"messaggio parziale!");
         
-        printf("Sono il padre, ricevuti=%d, e questo è il messaggio generato dal figlio:\n",ricevuti);
+        printf("\nSono il padre, byte_ricevuti=%d, e questo è il messaggio generato dal figlio:\n",ricevuti);
         for(i=0;i<N;i++)
             printf("messaggio[%d]=%d\n",i,messaggio[i]);
         
-        close(fd[0]);
-        
+        close(fd[0]);        
         return 0;
     }
 }
