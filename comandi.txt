@@ -7,6 +7,7 @@ pwd
 cd ./"nome_directory"
 cd ..
 ps aux
+ps aux | more
 
 gcc "programma".c
 .a/.out
