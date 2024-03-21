@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
-#define N 20
+#define N 50
 
 typedef struct s{
     float x;
@@ -26,7 +26,9 @@ int main(){
         fprintf(stderr,"errore nella fork!\n");
         return 1;
     }else if(pid==0){
-                
+        close(fd[1]);
+        
+        for(i=0;i<N;i++){        
         ricevuti=read(fd[0],&coords,sizeof(coords));
         if(ricevuti==-1){
             printf("Errore nella ricezione\n");
@@ -35,7 +37,9 @@ int main(){
             printf("Messaggio parziale, perchè ricevuti:%d.\n",ricevuti);
             
         printf("Stampo la struttura dal figlio: x:%.2f y:%.2f z:%.2f\n",coords.x,coords.y,coords.z);
+        }
         
+        close(fd[0]);
         return 0;
     }else{
         close(fd[0]);
@@ -43,7 +47,7 @@ int main(){
         for(i=0;i<N;i++){        
             coords.x=i;
             coords.y=i*2;
-            coords.z=3*i/2;
+            coords.z=3*i/(2.0);
             printf("Stampo la struttura dal padre: x:%.2f y:%.2f z:%.2f\n",coords.x,coords.y,coords.z);
             inviati=write(fd[1],&coords,sizeof(coords));            
             if(inviati<sizeof(coords)){
