@@ -8,7 +8,7 @@ int   	   getppid()  -> (pid effettivo del processo padre del processo corrente)
 MEMORIA CONDIVISA:
 segment_id= shmget( IPC_PRIVATE, MAX_SIZE, S_IRUSR|S_IWUSR)  -> (id, <0)
 ptr=        shmat(segment_id, NULL, 0)
-            shmdt(ptr)
+            shmdt(ptr)  -> (0 , -1)
             shmctl(segment_id, IPC_RMID, NULL)            
             
 SCAMBIO DI MESSAGGI:
