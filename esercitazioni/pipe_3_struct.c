@@ -5,7 +5,7 @@
 
 #define N 50
 
-typedef struct s{
+typedef struct{
     float x;
     float y;
     float z;
