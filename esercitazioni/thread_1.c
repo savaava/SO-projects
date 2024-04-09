@@ -8,7 +8,7 @@ aspetta la terminazione del thread secondario, e stampa il valore della varibile
 #include <stdlib.h>
 #include <pthread.h>
 
-int somma;
+int somma;  //vale anche per il thread figlio perchè condividono lo spazio di indirizzamento
 
 void* sum(void*n);
 
@@ -30,6 +30,7 @@ int main(int argc, char*argv[]){
     pthread_join(tid, NULL);
     
     printf("tid:%ld\nIl thread figlio ha finito e il suo risultato è:\nsomma=%d\n",tid,somma);
+    //somma è stata modificata perchè si trova nello stesso spazio di indirizzamento
     
     return 0;
 }
