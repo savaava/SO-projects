@@ -33,4 +33,4 @@ HEADERS:😃️
 #include <sys/ipc.h>    per IPC_PRIVATE e IPC_RMID
 #include <sys/shm.h>    per shmget(), shmat(), shmdt(), shmctl()
 #include <sys/types.h>  per pid_t, pthread_t, pthread_attr_t, ecc...
-#include <pthread.h>    per 
+#include <pthread.h>    per le funzioni su thread e mutex
