@@ -1,7 +1,8 @@
 PROCESSI:😃️
 pid_t      fork()
 	   wait(NULL)
-	   sleep(secondi)
+	   sleep(sec)
+	   usleep(microsec)
 int	   getpid()   -> (pid effettivo del processo corrente)
 int   	   getppid()  -> (pid effettivo del processo padre del processo corrente)
 	   execlp(char*pathname, char*arg0, char*arg1, ..., NULL)
