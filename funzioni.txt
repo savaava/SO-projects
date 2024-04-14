@@ -1,32 +1,3 @@
-PROCESSI:😃️
-pid_t      fork()
-	   wait(NULL)
-	   sleep(sec)
-	   usleep(microsec)
-int	   getpid()   -> (pid effettivo del processo corrente)
-int   	   getppid()  -> (pid effettivo del processo padre del processo corrente)
-	   execlp(char*pathname, char*arg0, char*arg1, ..., NULL)
-
-MEMORIA CONDIVISA:😃️
-segment_id= shmget(IPC_PRIVATE, MAX_SIZE, S_IRUSR|S_IWUSR)  -> (<0, id)
-ptr=  (cast)shmat(segment_id, NULL, 0)           -> ((void*)-1, void* ptr)
-            shmdt(ptr)                           -> (-1, 0)
-            shmctl(segment_id, IPC_RMID, NULL)   -> (-1, 0)         
-            
-SCAMBIO DI MESSAGGI:😃️
-int verifica= pipe(fd)  -> (-1, 0)
-              close(fd) 
-int inviati=  write(fd[1], message_ptr, size)  -> ( <size,  numero_byte_inviati )
-int ricevuti= read(fd[0], message_ptr, size)   -> ( -1, <size, 0)   
-
-THREADS:😃️
-pthread_t  tid
-	   pthread_create( &tid, NULL, thread_func, arg_ptr)  -> (!=0, 0)
-void*	   thread_func(void* arg)  ->(NULL, altro)
-	   pthread_exit(void* result_ptr)
-	   pthread_join(tid, void** result_ptr)
-	   
-	   
 HEADERS:😃️
 #include <unistd.h>     per fork(), getpid(), getppid(), sleep(), execlp(), read(), write(), close()
 #include <sys/wait.h>   per wait() e waitpid()
@@ -35,3 +6,32 @@ HEADERS:😃️
 #include <sys/shm.h>    per shmget(), shmat(), shmdt(), shmctl()
 #include <sys/types.h>  per pid_t, pthread_t, pthread_attr_t, ecc...
 #include <pthread.h>    per le funzioni su thread e mutex
+
+PROCESSI:😃️
+pid_t      fork()
+	   wait(NULL)
+	   sleep(sec)
+	   usleep(microsec)
+int	   getpid()   -> (pid effettivo del processo corrente)
+int   	   getppid()  -> (pid effettivo del processo padre del processo corrente)
+	   execlp(char*pathname, char*arg0, char*arg1, ..., NULL)	   
+
+MEMORIA CONDIVISA:😃️
+segment_id= shmget(IPC_PRIVATE, MAX_SIZE, S_IRUSR|S_IWUSR)  -> (<0, id)
+ptr=  (cast)shmat(segment_id, NULL, 0)           -> ((void*)-1, void* ptr)
+            shmdt(ptr)                           -> (-1, 0)
+            shmctl(segment_id, IPC_RMID, NULL)   -> (-1, 0)                  
+            
+SCAMBIO DI MESSAGGI:😃️
+int verifica= pipe(fd)  -> (-1, 0)
+              close(fd) 
+int inviati=  write(fd[1], message_ptr, size)  -> ( <size,  numero_byte_inviati )
+int ricevuti= read(fd[0], message_ptr, size)   -> ( -1, <size, 0)
+
+THREADS:😃️
+pthread_t  tid
+	   pthread_create( &tid, NULL, thread_func, arg_ptr)  -> (!=0, 0)
+void*	   thread_func(void* arg)  ->(NULL, altro)
+	   pthread_exit(void* result_ptr)
+	   pthread_join(tid, void** result_ptr)   
+

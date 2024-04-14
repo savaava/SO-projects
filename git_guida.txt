@@ -1,8 +1,20 @@
-una volta apportate le modifiche sul primo pc:
+UNA VOLTA APPORTATE LE MODIFICHE SUL PC MITTENTE:
 git add .
 git reset
-git commit -m ""
+git commit -m "ciao gisà"
 git push
 
-sull'altro pc:
+
+SUL PC DESTINATARIO:
 git pull
+
+
+IN CASO DI ERRORE 
+error: object file .git/objects/31/65...b0 is empty
+fatal: loose object 31...b0 (stored in .git/objects/31/65...b0) is corrupt
+
+find .git/objects/ -type f -empty | xargs rm  -> (verranno prima rimossi tutti i file oggetto vuoti che causano il danneggiamento dell'archivio nel suo complesso)
+git fetch -p				      -> (verranno recuperati gli oggetti mancanti)
+git fsck --full                               -> (verrà eseguito un controllo completo dell'archivio oggetti)
+
+
