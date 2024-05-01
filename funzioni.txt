@@ -33,5 +33,4 @@ pthread_t  tid
 	   pthread_create( &tid, NULL, thread_func, arg_ptr)  -> (!=0, 0)
 void*	   thread_func(void* arg)  ->(NULL, altro)
 	   pthread_exit(void* result_ptr)
-	   pthread_join(tid, void** result_ptr)   
-
+	   pthread_join(tid, void** result_ptr)

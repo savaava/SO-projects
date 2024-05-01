@@ -1,82 +1,68 @@
-/*Scrivi un programma in C che crea un processo figlio.
-Il processo padre deve creare un segmento di memoria condivisa. 
-Il processo padre genera un array di numeri casuali e lo scrive nel segmento di memoria condivisa. 
-Il processo figlio legge l’array dalla memoria condivisa, 
-calcola la somma dei numeri e la scrive nel segmento di memoria condivisa. Infine, 
-il processo padre legge la somma dalla memoria condivisa e la stampa*/
+/*Scrivere in C un programma che prenda un numero intero n come parametro sulla linea di comando, e
+costruisca un array di n float con i valori 1,2,...,n Il programma crea due thread secondari, a ciascuno
+dei quali passa metà dell’array (il primo thread riceve gli elementi di indice da 0 a n/2 escluso, e il
+secondo gli elementi di indice da n/2 a n escluso) Ciascun thread secondario calcola, per ciascun
+elemento dell’array che ha ricevuto, la radice quadrata (usando sqrt) e la memorizza nello stesso
+elemento dell’array. Il thread principale aspetta la terminazione dei due thread secondari e stampa il
+valore modificato dell’array.*/
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>     
-#include <sys/wait.h>   
-#include <sys/stat.h>   
-#include <sys/shm.h>  
-
-#define n 7
+#include <pthread.h>
+#include <math.h>
 
 typedef struct{
-    int vett[n];
-    int somma;
+    float*vett;
+    int dim;
 }TS;
 
-int main(){
-    TS*mess;
-    
-    int segment_id=shmget(IPC_PRIVATE, sizeof(TS), S_IRUSR|S_IWUSR);
-    if(segment_id==-1){
-        fprintf(stderr,"Errore nell'allocazione della mem condivisa\n");
+void*thread_func(void*vett);
+
+int main(int argc, char*argv[]){
+    if(argc!=2){
+        printf("Inserire un numero da riga di comando!\n");
         return 1;
     }
-    
+    int n=atoi(argv[1]);
+    if(n<0){
+        printf("Inserire un numero >=0 da riga di comando!\n");
+        return 1;
+    }
     int i;
+    float*v=(float*)malloc(n*sizeof(float));
+    TS dati[2];    
+    dati[0].vett=v;
+    dati[1].vett=v+n/2;
+    dati[0].dim=n/2;
+    dati[1].dim=n-n/2;
+    pthread_t tid[2];
     
-    pid_t pid=fork();
-    if(pid<0){
-        fprintf(stderr,"Errore nella fork");
-        shmctl(segment_id, IPC_RMID, NULL);
-        return 1;
-    }else if(pid==0){ //figlio
-        usleep(1000);    
-        mess=(TS*)shmat(segment_id, NULL, 0);
-        if(mess==(TS*)-1){
-            fprintf(stderr,"Errore nel collegamento alla mem condivisa\n");
-            return 1;
-        }        
-        
-        printf("Sono il figlio -> calcolo la somma dei %d elementi:\n",n);
-        mess->somma=0;
-        for(i=0; i<n; i++)
-            mess->somma +=mess->vett[i];
-        
-        shmdt(mess);
-    }else{ //padre
-        mess=(TS*)shmat(segment_id, NULL, 0);
-        if(mess==(TS*)-1){
-            fprintf(stderr,"Errore nel collegamento alla mem condivisa\n");
-            shmctl(segment_id, IPC_RMID, NULL);
-            return 1;
-        }
-        
-        printf("Sono il padre e genero l'array di dimensione %d:\n",n);
-        for(i=0; i<n; i++){
-            mess->vett[i]=rand()%100;
-            printf("array[%d]=%d\n",i, mess->vett[i]);
-        }
-        
-        wait(NULL);
-        
-        printf("La somma, calcolata dal figlio, è: %d\n", mess->somma);
-        
-        shmdt(mess);
-        shmctl(segment_id, IPC_RMID, NULL);
+    for(i=0;i<n;i++)
+        v[i]=i+1;
+    
+    for(i=0;i<2;i++){
+            pthread_create(tid+i, NULL, thread_func, &dati[i]);
     }
     
+    for(i=0;i<2;i++)
+        pthread_join(tid[i], NULL);
+    
+    for(i=0;i<n;i++)
+        printf("vett[%d]=%f\n",i,v[i]);
+        
+    free(v);
 }
 
-
-
-
-
+void*thread_func(void*vett){
+    TS*dati=(TS*)vett;
+    
+    for(int i=0; i<dati->dim; i++){
+        printf("eccomi vett[%d]=%f\n",i,dati->vett[i]);
+        dati->vett[i]=sqrt(dati->vett[i]);
+    }
+    
+    pthread_exit(NULL);
+}
 
 
 
