@@ -34,3 +34,25 @@ pthread_t  tid
 void*	   thread_func(void* arg)  ->(NULL, altro)
 	   pthread_exit(void* result_ptr)
 	   pthread_join(tid, void** result_ptr)
+	   
+MUTEX E VARIABILI CONDITION:😃️
+pthread_mutex_t nomeMutex; //Dichiaro il mutex
+pthread_cond_t nomeVariabileCondition; //Dichiaro la variabile condition.
+pthread_mutex_init(&mutex, NULL); //inizializzo il mutex con attributi di default; restituisce 0 in
+caso di successo. È possibile inizializzare il mutex durante la dichiarazione, attraverso la macro
+PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_lock(&mutex); //Acquisisco il mutex, se era già occupato il thread viene sospeso
+finché il mutex non si libera. Restituisce 0 in caso di successo.
+pthread_mutex_unlock(&mutex); //Rilascio il mutex, restituisce 0 in caso di successo.
+pthread_mutex_destroy(&mutex); //Distruggo il mutex, restituisce 0 in caso di successo.
+pthread_cond_init(&varcond, NULL); //inizializzo la variabile condition con attributi di default;
+restituisce 0 in caso di successo. È possibile inizializzare la variabile condition durante la
+dichiarazione, attraverso la macro PTHREAD_COND_INITIALIZER;
+pthread_cond_destroy(&varcond); //Distruggo la variabile condition, restituisce 0 in caso di
+successo
+pthread_cond_wait(&varcond, &mutex); //Effettua la wait sulla variabile condition, restituisce 0 in
+caso di successo.
+pthread_cond_signal(&varcond); //Effettua la signal sulla variabile condition (sveglia un solo
+thread), restituisce 0 in caso di successo.
+pthread_cond_broadcast(&varcond); //Effettua la broadcast sulla variabile condition (sveglia tutti i
+thread), restituisce 0 in caso di successo.
