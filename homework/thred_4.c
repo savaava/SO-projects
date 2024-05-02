@@ -11,60 +11,55 @@ valore modificato dell’array.*/
 #include <pthread.h>
 #include <math.h>
 
-typedef struct{
-    float*vett;
-    int dim;
-}TS;
+void*thread_func(void* );
 
-void*thread_func(void*vett);
+typedef struct{
+    float*array;
+    int n;
+}TS;
 
 int main(int argc, char*argv[]){
     if(argc!=2){
-        printf("Inserire un numero da riga di comando!\n");
+        fprintf(stderr,"Non sono stati passati due stringhe da riga di comando!\n");
         return 1;
     }
+    
     int n=atoi(argv[1]);
-    if(n<0){
-        printf("Inserire un numero >=0 da riga di comando!\n");
-        return 1;
-    }
+    float array[n];
     int i;
-    float*v=(float*)malloc(n*sizeof(float));
-    TS dati[2];    
-    dati[0].vett=v;
-    dati[1].vett=v+n/2;
-    dati[0].dim=n/2;
-    dati[1].dim=n-n/2;
     pthread_t tid[2];
+    TS dati[2];
     
-    for(i=0;i<n;i++)
-        v[i]=i+1;
+    //io separo i parametri per chiamare separatamente i threads
+    dati[0].array=array;
+    dati[0].n=n/2;
+    dati[1].array=array+n/2;
+    dati[1].n= n-dati[0].n;
     
-    for(i=0;i<2;i++){
-            pthread_create(tid+i, NULL, thread_func, &dati[i]);
+    for(i=0; i<n; i++)
+        array[i]=i+1;
+    
+    for(i=0; i<2; i++){
+        pthread_create(tid+i, NULL, thread_func, dati+i);
     }
     
-    for(i=0;i<2;i++)
-        pthread_join(tid[i], NULL);
-    
-    for(i=0;i<n;i++)
-        printf("vett[%d]=%f\n",i,v[i]);
+    for(i=0; i<2; i++)
+        pthread_join(tid[i],NULL);
         
-    free(v);
+    printf("Stampa array:\n");
+    for(i=0; i<n; i++)
+        printf("array[%d]=%g\n",i,array[i]);
+    
 }
 
-void*thread_func(void*vett){
-    TS*dati=(TS*)vett;
+void*thread_func(void*tmp){
+    TS*dati=(TS*)tmp;
     
-    for(int i=0; i<dati->dim; i++){
-        printf("eccomi vett[%d]=%f\n",i,dati->vett[i]);
-        dati->vett[i]=sqrt(dati->vett[i]);
-    }
+    for(int i=0; i<(dati->n); i++)
+        dati->array[i] = sqrt(dati->array[i]);
     
-    pthread_exit(NULL);
+    return NULL;
 }
-
-
 
 
 
