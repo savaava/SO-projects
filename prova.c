@@ -1,4 +1,4 @@
-/*Esercizio */
+/*Esercizio*/
 
 #include <stdio.h>
 #include <stdlib.h>
