@@ -45,8 +45,8 @@ pthread_mutex_destroy(&mutex)
 pthread_cond_t nomeVariabileCondition;
 int pthread_cond_init(&varcond, NULL);
 int pthread_cond_destroy(&varcond);
-int pthread_cond_wait(&varcond, &mutex);
-int pthread_cond_signal(&varcond);         (sveglia un solo thread)
-int pthread_cond_broadcast(&varcond);      (sveglia tutti i threads)
+int pthread_cond_wait(&varcond, &mutex);   (esegue una Signal sul mutex e sospende il processo chiamante in attesa della variabile condition varcond)
+int pthread_cond_signal(&varcond);         (sveglia un solo thread in attesa su varcond. il processo risvegliato esegue implicitamente una Wait sul mutex)
+int pthread_cond_broadcast(&varcond);      (sveglia tutti i threads in attesa su quella variabile cond)
 
 ->(!=0, 0)

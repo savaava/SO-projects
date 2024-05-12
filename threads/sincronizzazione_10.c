@@ -14,7 +14,7 @@ thread.*/
 #include <pthread.h>
 
 #define THREADS 2
-#define ATTESA 3
+#define ATTESA 1
 #define LIMITE 10
 
 typedef struct {
@@ -58,7 +58,7 @@ void *incrementa_conteggio(void *arg){
         pthread_mutex_lock(&dato->mutex);
         
         //sezione critica
-        dato->conteggio+=1;
+        dato->conteggio++;
         printf("Conteggio corrente= %d\n",dato->conteggio);
         
         pthread_cond_signal(&dato->limite_raggiunto);
@@ -78,7 +78,6 @@ void *controlla_limite(void *arg){
         dato->conteggio=0;
         printf("Conteggio rimessa a %d\n",dato->conteggio);
         
-        pthread_cond_signal(&dato->limite_raggiunto);
         pthread_mutex_unlock(&dato->mutex);
     }
 }
