@@ -26,16 +26,62 @@ typedef struct {
 void *incrementa_conteggio(void *arg);
 void *controlla_limite(void *arg);
 
+
 int main(){
-    TStrutturaConteggio dato_condiviso;
-    pthread_mutex_init(dato_condiviso.mutex, NULL);
-    pthread_cond_init(dato_condiviso.limite_raggiunto, NULL);
+    TStrutturaConteggio dato;
+    dato.conteggio=0;
+    pthread_mutex_init(&dato.mutex,NULL);
+    pthread_cond_init(&dato.limite_raggiunto,NULL);
     
     pthread_t tid[THREADS];
+    int i;
     
+    if(pthread_create(tid, NULL, incrementa_conteggio, &dato) !=0){
+        fprintf(stderr,"Errore nella creazione di un thread\n");
+        return 1;
+    }
+    if(pthread_create(tid+1, NULL, controlla_limite, &dato) !=0){
+        fprintf(stderr,"Errore nella creazione di un thread\n");
+        return 1;
+    }
+
+    for(int i=0; i<THREADS; i++)
+        pthread_join(tid[i],NULL); 
+        //attesa infinita, perchè in questo modo finchè i thread non finiscono il main non riprende
+        
 }
 
-
+void *incrementa_conteggio(void *arg){
+    TStrutturaConteggio*dato=(TStrutturaConteggio*)arg;
+    
+    while(1){
+        pthread_mutex_lock(&dato->mutex);
+        
+        //sezione critica
+        dato->conteggio+=1;
+        printf("Conteggio corrente= %d\n",dato->conteggio);
+        
+        pthread_cond_signal(&dato->limite_raggiunto);
+        pthread_mutex_unlock(&dato->mutex);
+        sleep(ATTESA);
+    }
+}
+void *controlla_limite(void *arg){
+    TStrutturaConteggio*dato=(TStrutturaConteggio*)arg;
+    
+    while(1){
+        pthread_mutex_lock(&dato->mutex);
+        
+        while(dato->conteggio!=LIMITE)
+            pthread_cond_wait(&dato->limite_raggiunto, &dato->mutex);
+        
+        dato->conteggio=0;
+        printf("Conteggio rimessa a %d\n",dato->conteggio);
+        
+        pthread_cond_signal(&dato->limite_raggiunto);
+        pthread_mutex_unlock(&dato->mutex);
+    }
+}
 
 
 
