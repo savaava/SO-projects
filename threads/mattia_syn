@@ -41,7 +41,7 @@ void*conteggio(void*arg){
     while(1){
         pthread_mutex_lock(&buffer->mutex);
         
-        printf("conteggio: %d\n",buffer->cont);
+        printf("%d\n",buffer->cont);
         buffer->cont--;
         
         pthread_cond_signal(&buffer->limite);
@@ -58,6 +58,7 @@ void*stampa_stringa(void*arg){
         while(buffer->cont!=0)
             pthread_cond_wait(&buffer->limite,&buffer->mutex);
         
+        usleep(500000);
         printf("TANTI AUGURI MATTI !\n");
         buffer->cont=3;
         
