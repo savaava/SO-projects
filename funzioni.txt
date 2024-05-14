@@ -37,10 +37,10 @@ void*	   thread_func(void* arg)  ->(NULL, altro)
 	   
 MUTEX E VARIABILI CONDITION:😃️
 pthread_mutex_t mutex
-pthread_mutex_init(&mutex, NULL)
-pthread_mutex_lock(&mutex)
-pthread_mutex_unlock(&mutex)
-pthread_mutex_destroy(&mutex)
+int pthread_mutex_init(&mutex, NULL)
+int pthread_mutex_lock(&mutex)
+int pthread_mutex_unlock(&mutex)
+int pthread_mutex_destroy(&mutex)
 
 pthread_cond_t nomeVariabileCondition;
 int pthread_cond_init(&varcond, NULL);
