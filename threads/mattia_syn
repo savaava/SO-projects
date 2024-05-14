@@ -13,11 +13,6 @@ typedef struct{
     pthread_cond_t limite;
 }TBuffer;
 
-typedef struct{
-    TBuffer*buffer;
-    char stringa[100];
-}Tparam;
-
 void*conteggio(void*arg);
 void*stampa_stringa(void*arg);
 
