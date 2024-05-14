@@ -1,0 +1,73 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <pthread.h>
+
+#define LIMITE 0
+#define ATTESA 1
+
+typedef struct{
+    int cont;
+    pthread_mutex_t mutex;
+    pthread_cond_t limite;
+}TBuffer;
+
+typedef struct{
+    TBuffer*buffer;
+    char stringa[100];
+}Tparam;
+
+void*conteggio(void*arg);
+void*stampa_stringa(void*arg);
+
+int main(){
+    TBuffer buffer;
+    buffer.cont=3;
+    pthread_mutex_init(&buffer.mutex,NULL);
+    pthread_cond_init(&buffer.limite,NULL);
+    
+    pthread_t tid_cont,tid_str;
+    
+    pthread_create(&tid_cont,NULL,conteggio,&buffer);
+    pthread_create(&tid_str,NULL,stampa_stringa,&buffer);
+    
+    pthread_join(tid_cont,NULL);
+    pthread_join(tid_str,NULL);
+    
+    return 0;
+    
+}
+
+
+void*conteggio(void*arg){
+    TBuffer*buffer=(TBuffer*)arg;
+    
+    while(1){
+        pthread_mutex_lock(&buffer->mutex);
+        
+        printf("conteggio: %d\n",buffer->cont);
+        buffer->cont--;
+        
+        pthread_cond_signal(&buffer->limite);
+        pthread_mutex_unlock(&buffer->mutex);
+        sleep(ATTESA);
+    }
+}
+void*stampa_stringa(void*arg){
+    TBuffer*buffer=(TBuffer*)arg;
+    
+    while(1){
+        pthread_mutex_lock(&buffer->mutex);
+        
+        while(buffer->cont!=0)
+            pthread_cond_wait(&buffer->limite,&buffer->mutex);
+        
+        printf("TANTI AUGURI MATTI !\n");
+        buffer->cont=3;
+        
+        pthread_cond_signal(&buffer->limite);
+        pthread_mutex_unlock(&buffer->mutex);   
+        
+    }
+} 
