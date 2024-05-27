@@ -1,11 +1,7 @@
-ls 
 la
 ls -al
 tree
 pstree
-pwd
-cd ./"nome_directory"
-cd ..
 ps aux
 ps aux | more
 
@@ -14,6 +10,36 @@ gcc "programma".c
 
 touch "nome_file"."estensione"
 mkdir "nome_directory"
-rm "nome"
+
+
+
+Pathname assoluti cominciano con "/"
+Pathname relativi partono dalla directory corrente 
+Un pathname relativo può specificare solo il nome del file (es. hello.c), se il
+file si trova direttamente nella directory corrente
+
+pwd  path working dir
+
+ls   mostra il contenuto di una dir
+
+cd   change dir
+
+.    punta alla dir stessa
+open ./prova.txt
+
+..   punta alla dir genitore
+cd ../..
+
+ln   crea link a file e directory
+
+rm   rimuove un link da una directory, ma non cancella necessariamente il file corrispondente, perchè il file viene cancellato solo quando viene rimosso il suo ultimo link
+
+ln ./prova.txt collegamento_rigido.txt
+Hard Link: è un nome aggiuntivo per un file esistente. Gli hard link associano due o più nomi di file allo stesso i-node.È possibile creare uno o più hard link per un
+singolo file. Non è possibile creare hard link per directory e file su un
+filesystem o una partizione diversi.
+
+ln -s ~/file_sorgente.txt /tmp/collegamento_simbolico.txt
+Soft Link:
 
 
