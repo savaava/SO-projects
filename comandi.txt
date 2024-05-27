@@ -10,8 +10,15 @@ gcc "programma".c
 
 touch "nome_file"."estensione"
 mkdir "nome_directory"
+cat  mostra il contenuto di un file
+echo $PATH
+env
 
 
+
+
+
+comando [argomento…] [modificatore…]
 
 Pathname assoluti cominciano con "/"
 Pathname relativi partono dalla directory corrente 
@@ -20,7 +27,10 @@ file si trova direttamente nella directory corrente
 
 pwd  path working dir
 
-ls   mostra il contenuto di una dir
+ls      mostra il contenuto di una dir
+ls -a   mostra anche i contenuti nascosti
+ls -al
+ls -l
 
 cd   change dir
 
@@ -34,12 +44,75 @@ ln   crea link a file e directory
 
 rm   rimuove un link da una directory, ma non cancella necessariamente il file corrispondente, perchè il file viene cancellato solo quando viene rimosso il suo ultimo link
 
-ln ./prova.txt collegamento_rigido.txt
+ln ./source_file.txt collegamento_rigido.txt
 Hard Link: è un nome aggiuntivo per un file esistente. Gli hard link associano due o più nomi di file allo stesso i-node.È possibile creare uno o più hard link per un
 singolo file. Non è possibile creare hard link per directory e file su un
 filesystem o una partizione diversi.
 
-ln -s ~/file_sorgente.txt /tmp/collegamento_simbolico.txt
-Soft Link:
+ln -s ./source_file.txt ../Downloads/collegamento_simbolico.txt
+Soft Link: è un puntatore indiretto a un file o a una directory.
+A differenza di un hard link, un symbolic link può puntare a un file o a
+una directory su un filesystem o una partizione diversi.
 
+chmod u+r prova.txt 
+chmod g+r prova.txt
+chmod o+x prova.txt
+chmod 441 prova.txt
+chmod 666 prova.txt
+---------------
+u=proprietario
+g=group
+o=others
+a=all
+---------------
+r=read
+w=wirte 
+x=execute
 
+echo display a line of text written 
+
+mv sposta uno o più file da una directory all’altra, oppure modifica il nome
+di un file
+
+cp crea una copia di uno o più file
+
+wc stampa il numero di linee, di parole e di byte contenuti in uno o più
+file
+
+mkdir crea una directory
+
+rmdir rimuove una directory (che deve essere vuota)
+
+Ctrl-C: interrompe l’esecuzione di un comando;
+Ctrl-S: blocca l’output che scorre sullo schermo;
+Ctrl-Q: sblocca lo stesso output.
+
+comando [argomenti…] [modificatori…]
+argomenti specificano opzioni del comando, oppure dati su cui il comando deve lavorare (pathname di file o directory)
+modificatori sono introdotti da caratteri speciali
+
+apropos stringa
+Visualizza la lista di tutti i comandi che contengono la stringa passata per parametro nella loro descrizione sintetica;
+
+whatis nome_comando
+Visualizza la descrizione sintetica del comando passato come parametro;
+
+man nome_comando
+Visualizza la pagina del manuale in linea relativa al comando passato come parametro.
+
+opzioni prima degli altri argomenti, 
+e che comincino con il - (trattino) o con il prefisso -- (due trattini)
+
+Quoting
+Quoting di un singolo carattere: il carattere speciale viene preceduto da \ (backslash)
+Quoting di un gruppo di caratteri: racchiudendo i caratteri in una coppia di “ (apice doppio), ma alcuni caratteri speciali (in particolare $)
+rm elenco\ gruppi 
+rm ’elenco gruppi’
+rm ”elenco gruppi”
+
+echo Salve, mondo \# Saluta tutti
+In fase di espansione, la shell cancella il carattere # (detto hash) (a meno
+che non sia quotato) e tutti i caratteri seguenti fino alla fine della linea
+usato per commentare
+
+~
