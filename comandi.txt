@@ -12,7 +12,6 @@ touch "nome_file"."estensione"
 mkdir "nome_directory"
 cat  mostra il contenuto di un file
 echo $PATH
-env
 
 
 
@@ -115,4 +114,55 @@ In fase di espansione, la shell cancella il carattere # (detto hash) (a meno
 che non sia quotato) e tutti i caratteri seguenti fino alla fine della linea
 usato per commentare
 
-~
+~ carattere speciale 
+da sola -> è il paathname della home dell'utente corrente
+con username -> è il pathname della home di quell'utente
+
+$ per vedere all'interno
+PATH="$PATH:~scripts" riavviano il terminale e si è tolto
+
+$1,$2,$3,...${10},${11},...
+contengono in ordine gli argomenti usati 
+
+$# numero di argomenti passati come argc, però qui non conta il nome dello script
+$* lista di tutti gli argomenti passati
+$? contiente l'exit status dell'ultimo comando eseguito dalla shell ->(!=0,0)
+echo $? per vedere l'exit status, se facessimo solo $? proveremmo ad eseguire il comando (0,127,...) che non esiste 
+
+env 
+per le variabili dambiente
+
+export nomevar=valore 
+così tutti i processi figlio erediteranno questa nomevar
+per ereditare un nuovo path per il processo figlio creato con uno script
+per costringerlo a vedere al variazione di variabile d'ambiente
+
+algoritmo: procedura effettiva di calcolo descritta da un numero finita di regole che conduce al risultato dopo un numero finito di passi, ossia di applicazioni delle regole
+effettiva perchè la realizzazione deve essere fisica, messa in pratica
+
+((espressione))   è un comando!!
+$((espressione))  
+espressione aritmetica del C
+
+[[ operatore-unario operando ]]
+[[ operando1 operatore-binario operando2 ]]
+lavora su pathname e stringhe
+
+;
+
+ubuntu@ubuntu2304:~$ echo $((n<20))
+1
+ubuntu@ubuntu2304:~$ echo $?
+0
+ubuntu@ubuntu2304:~$ ((n<20))
+ubuntu@ubuntu2304:~$ echo $?
+0
+ubuntu@ubuntu2304:~$ $((n<20))
+1: command not found
+ubuntu@ubuntu2304:~$ #perchè ha cercato di eseguire 1
+ubuntu@ubuntu2304:~$ echo ((n<20))
+bash: syntax error near unexpected token `('
+ubuntu@ubuntu2304:~$ echo "((n<20))"
+((n<20))
+ubuntu@ubuntu2304:~$  
+
