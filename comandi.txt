@@ -6,7 +6,7 @@ ps aux
 ps aux | more
 
 gcc "programma".c
-.a/.out
+./a.out
 
 touch "nome_file"."estensione"
 mkdir "nome_directory"
@@ -24,7 +24,7 @@ Pathname relativi partono dalla directory corrente
 Un pathname relativo può specificare solo il nome del file (es. hello.c), se il
 file si trova direttamente nella directory corrente
 
-pwd  path working dir
+pwd     print absolute pathname of current/working directory
 
 ls      mostra il contenuto di una dir
 ls -a   mostra anche i contenuti nascosti
@@ -37,21 +37,24 @@ cd   change dir
 open ./prova.txt
 
 ..   punta alla dir genitore
-cd ../..
+cd ../../prova.txt
 
 ln   crea link a file e directory
 
-rm   rimuove un link da una directory, ma non cancella necessariamente il file corrispondente, perchè il file viene cancellato solo quando viene rimosso il suo ultimo link
+rm   rimuove un link da una directory, ma non cancella necessariamente il file    
+     corrispondente, perchè il file viene cancellato solo quando viene rimosso il suo 
+     ultimo link
 
 ln ./source_file.txt collegamento_rigido.txt
-Hard Link: è un nome aggiuntivo per un file esistente. Gli hard link associano due o più nomi di file allo stesso i-node.È possibile creare uno o più hard link per un
-singolo file. Non è possibile creare hard link per directory e file su un
-filesystem o una partizione diversi.
+Hard Link: è un nome aggiuntivo per un file esistente. Gli hard link associano due o più
+           nomi di file allo stesso i-node.È possibile creare uno o più hard link per un
+           singolo file. Non è possibile creare hard link per directory e file su un 
+           filesystem o una partizione diversi.
 
-ln -s ./source_file.txt ../Downloads/collegamento_simbolico.txt
-Soft Link: è un puntatore indiretto a un file o a una directory.
-A differenza di un hard link, un symbolic link può puntare a un file o a
-una directory su un filesystem o una partizione diversi.
+ln -s ./source_file.txt ../Downloads/collegamento_simbolico.txt 
+Soft Link: è un puntatore indiretto a un file o a una directory. A differenza di un hard
+           link, un symbolic link può puntare a un file o a una directory su un
+           filesystem o una partizione diversi.
 
 chmod u+r prova.txt 
 chmod g+r prova.txt
@@ -70,17 +73,18 @@ x=execute
 
 echo display a line of text written 
 
-mv sposta uno o più file da una directory all’altra, oppure modifica il nome
-di un file
+mv sposta uno o più file da una directory all’altra, oppure modifica il nome di un file
 
 cp crea una copia di uno o più file
 
-wc stampa il numero di linee, di parole e di byte contenuti in uno o più
-file
+wc     stampa il numero di linee, di parole e di byte contenuti in uno o più file
+wc -l  stampa solo il numero di linee
 
 mkdir crea una directory
 
 rmdir rimuove una directory (che deve essere vuota)
+
+-r   comando eseguito in maniera ricorsiva
 
 Ctrl-C: interrompe l’esecuzione di un comando;
 Ctrl-S: blocca l’output che scorre sullo schermo;
@@ -90,44 +94,120 @@ comando [argomenti…] [modificatori…]
 argomenti specificano opzioni del comando, oppure dati su cui il comando deve lavorare (pathname di file o directory)
 modificatori sono introdotti da caratteri speciali
 
-apropos stringa
-Visualizza la lista di tutti i comandi che contengono la stringa passata per parametro nella loro descrizione sintetica;
+apropos stringa   Visualizza la lista di tutti i comandi che contengono la stringa
+                  passata per parametro nella loro descrizione sintetica;
 
-whatis nome_comando
-Visualizza la descrizione sintetica del comando passato come parametro;
+whatis nome_comando   Visualizza la descrizione sintetica del comando passato come 
+                      parametro;
 
-man nome_comando
-Visualizza la pagina del manuale in linea relativa al comando passato come parametro.
+man nome_comando    Visualizza la pagina del manuale in linea relativa al comando 
+		    passato come parametro.
 
 opzioni prima degli altri argomenti, 
 e che comincino con il - (trattino) o con il prefisso -- (due trattini)
 
-Quoting
 Quoting di un singolo carattere: il carattere speciale viene preceduto da \ (backslash)
 Quoting di un gruppo di caratteri: racchiudendo i caratteri in una coppia di “ (apice doppio), ma alcuni caratteri speciali (in particolare $)
 rm elenco\ gruppi 
 rm ’elenco gruppi’
 rm ”elenco gruppi”
 
+#
 echo Salve, mondo \# Saluta tutti
 In fase di espansione, la shell cancella il carattere # (detto hash) (a meno
 che non sia quotato) e tutti i caratteri seguenti fino alla fine della linea
 usato per commentare
 
 ~ carattere speciale 
-da sola -> è il paathname della home dell'utente corrente
-con username -> è il pathname della home di quell'utente
+  da sola -> è il pathname della home dell'utente corrente
+  con username -> è il pathname della home di quell'utente
+
+?  nell’argomento corrisponde a un qualsiasi carattere singolo nel 
+   pathname (escluso /)
+*  nell’argomento corrisponde a una sequenza di lunghezza
+   qualsiasi (anche 0) di caratteri qualsiasi (escluso /) nel pathname
+
+[ ]: singolo carattere tra quelli elencati
+{ }: stringa tra quelle elencate
+ls -l ./thre*_[1-4].c
+ls -l ./{thr*,esercizio}_?.c
+
+comando [argomento…] < pathname   redirezione dello standard input
+comando [argomento…] > pathname   redirezione dello standard output, cancellando il 
+                                  vecchio contenuto del file prima di scrivere
+comando [argomento…] >> pathname  redirezione dello standard output, aggiungendolo in
+                                  cosa al contenuto già esistente nel file
+ls -l ../Documents/es_so/ > ./prova.txt 
+
+comando1 | comando2 | … | comandoN   Lo standard output di ciascun processo è connesso 
+                                     dalla shell allo standard input del processo
+                                     successivo (usando il meccanismo delle pipe anonime
+                                     per la comunicazione tra i processi)
+ls -al ../Documents/es_so/ | wc -l
+
+
+find pathname … [opzione…]  
+-name nome consente di selezionare tutti i pathname il cui nome
+“combacia” con l’argomento nome; l’argomento può contenere i caratteri ?
+e * (che devono essere quotati, per evitare che siano interpretati dalla
+shell!)
+-iname stesso effetto di -name, ma ignora la differenza tra maiuscole e minuscole
+find ../Documents/es_so/ -iname "thr*_?.c"   stampa i pathname che hanno "thr*_?.c" a
+                                             partire dalla directory corrente, in
+                                             maniera ricorsiva
+find ../Documents/es_so/ ./ -iname "thr*_?.c"
+
+-type tipo consente di selezionare tutti i pathname di elementi che
+corrispondono a un certo tipo: 
+f -> file regolari 
+d -> directory
+l -> link simbolici
+find ../Documents/es_so/ -iname "*r*" -type d
+
+-empty consente di selezionare tutti i file di dimensione 0
+-size nnn consente di selezionare i pathname in base alla dimensione; la
+dimensione è specificata tramite un numero seguito da un’unità che può
+essere: c (caratteri), k (kilobyte), M (megabyte), G (gigabyte); se la dimensione
+è preceduta da +, sono selezionati i file più grandi della dimensione
+specificata; se è preceduta da -, i file più piccoli della dimensione specificata;
+altrimenti sono selezionati i file esattamente della dimensione specificata
+find ../Documents/es_so/ -empty
+find . -size +1M
+
+-ctime nnn consente di selezionare i pathname creati nnn giorni fa; se il
+numero è preceduto da +, sono selezionati i file più vecchi della data
+specificata; se è preceduto da -, i file più nuovi
+-ctime         -> età del file in giorni
+-cmin          -> età del file in minuti
+-mtime e -mmin -> data di ultima modifica
+-atime e -amin -> data di ultimo accesso
+find ../Documents/es_so/ ./ -type f -mtime -7
+
+-print stampa                il pathname su standard output (azione di default)
+-fprint filename             scrive il pathname nel file indicato
+-delete                      rimuove il pathname con il comando rm
+-exec comando argomenti… ’;’ esegue il comando specificato; negli argomenti, la stringa
+                             ‘{}’ viene sostituita con il pathname Nota: gli argomenti
+                             del comando da eseguire devono essere terminati da un ;
+                             quotato
+-ok comando argomenti… ’;’   come -exec, ma chiede conferma all’utente prima di eseguire
+			     ogni comando
+find ./ -type f -mtime -365 -exec mv "{}" ../Desktop/ ";"
+find ./ -ctime +9 -iname "*kk.c" -delete
+
+
 
 $ per vedere all'interno
-PATH="$PATH:~scripts" riavviano il terminale e si è tolto
+PATH="$PATH:~scripts" riavviando il terminale e si è tolto
 
 $1,$2,$3,...${10},${11},...
 contengono in ordine gli argomenti usati 
 
-$# numero di argomenti passati come argc, però qui non conta il nome dello script
-$* lista di tutti gli argomenti passati
-$? contiente l'exit status dell'ultimo comando eseguito dalla shell ->(!=0,0)
-echo $? per vedere l'exit status, se facessimo solo $? proveremmo ad eseguire il comando (0,127,...) che non esiste 
+$#   numero di argomenti passati come argc, però qui non conta il nome dello script
+$*   lista di tutti gli argomenti passati
+$?   contiente l'exit status dell'ultimo comando eseguito dalla shell ->(!=0,0)
+     echo $? per vedere l'exit status, se facessimo solo $? proveremmo ad eseguire il
+     comando (0,127,...) che non esiste 
 
 env 
 per le variabili dambiente
