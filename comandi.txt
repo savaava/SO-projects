@@ -1,5 +1,3 @@
-la
-ls -al
 tree
 pstree
 ps aux
@@ -9,14 +7,16 @@ gcc "programma".c
 ./a.out
 
 touch "nome_file"."estensione"
-mkdir "nome_directory"
+
 cat  mostra il contenuto di un file
+cat -n con le righe
+
 echo $PATH
 
 
 
 
-
+--------------------------------------------------------------------------------------
 comando [argomento…] [modificatore…]
 
 Pathname assoluti cominciano con "/"
@@ -26,51 +26,54 @@ file si trova direttamente nella directory corrente
 
 pwd     print absolute pathname of current/working directory
 
-ls      mostra il contenuto di una dir
-ls -a   mostra anche i contenuti nascosti
+ls                mostra il contenuto di una dir
+ls -a             mostra anche i contenuti nascosti della dir
+ls -l             mostra i contenuti in fomato lungo della dir (permessi, bytes, età)
 ls -al
-ls -l
 
-cd   change dir
+cd pathname       change dir
 
-.    punta alla dir stessa
+.                 punta alla dir stessa
 open ./prova.txt
 
-..   punta alla dir genitore
+..                punta alla dir genitore
 cd ../../prova.txt
 
+--------------------------------------------------------------------------------------
 ln   crea link a file e directory
 
 rm   rimuove un link da una directory, ma non cancella necessariamente il file    
      corrispondente, perchè il file viene cancellato solo quando viene rimosso il suo 
      ultimo link
-
+     
 ln ./source_file.txt collegamento_rigido.txt
-Hard Link: è un nome aggiuntivo per un file esistente. Gli hard link associano due o più
-           nomi di file allo stesso i-node.È possibile creare uno o più hard link per un
-           singolo file. Non è possibile creare hard link per directory e file su un 
-           filesystem o una partizione diversi.
+Hard Link: è un nome aggiuntivo per un file esistente. Gli hard link associano due o
+           più nomi di file allo stesso i-node.È possibile creare uno o più hard link
+           per un singolo file. Non è possibile creare hard link per directory e file
+           su un filesystem o una partizione diversi.
 
 ln -s ./source_file.txt ../Downloads/collegamento_simbolico.txt 
-Soft Link: è un puntatore indiretto a un file o a una directory. A differenza di un hard
-           link, un symbolic link può puntare a un file o a una directory su un
+Soft Link: è un puntatore indiretto a un file o a una directory. A differenza di un
+           hard link, un symbolic link può puntare a un file o a una directory su un
            filesystem o una partizione diversi.
-
+        
+--------------------------------------------------------------------------------------
 chmod u+r prova.txt 
 chmod g+r prova.txt
 chmod o+x prova.txt
 chmod 441 prova.txt
 chmod 666 prova.txt
----------------
+
 u=proprietario
 g=group
 o=others
 a=all
----------------
+
 r=read
 w=wirte 
 x=execute
 
+--------------------------------------------------------------------------------------
 echo display a line of text written 
 
 mv sposta uno o più file da una directory all’altra, oppure modifica il nome di un file
@@ -84,12 +87,14 @@ mkdir crea una directory
 
 rmdir rimuove una directory (che deve essere vuota)
 
--r   comando eseguito in maniera ricorsiva
+comando -r   comando eseguito in maniera ricorsiva
 
+--------------------------------------------------------------------------------------
 Ctrl-C: interrompe l’esecuzione di un comando;
 Ctrl-S: blocca l’output che scorre sullo schermo;
 Ctrl-Q: sblocca lo stesso output.
 
+--------------------------------------------------------------------------------------
 comando [argomenti…] [modificatori…]
 argomenti specificano opzioni del comando, oppure dati su cui il comando deve lavorare (pathname di file o directory)
 modificatori sono introdotti da caratteri speciali
@@ -106,6 +111,7 @@ man nome_comando    Visualizza la pagina del manuale in linea relativa al comand
 opzioni prima degli altri argomenti, 
 e che comincino con il - (trattino) o con il prefisso -- (due trattini)
 
+--------------------------------------------------------------------------------------
 Quoting di un singolo carattere: il carattere speciale viene preceduto da \ (backslash)
 Quoting di un gruppo di caratteri: racchiudendo i caratteri in una coppia di “ (apice doppio), ma alcuni caratteri speciali (in particolare $)
 rm elenco\ gruppi 
@@ -118,10 +124,12 @@ In fase di espansione, la shell cancella il carattere # (detto hash) (a meno
 che non sia quotato) e tutti i caratteri seguenti fino alla fine della linea
 usato per commentare
 
+--------------------------------------------------------------------------------------
 ~ carattere speciale 
   da sola -> è il pathname della home dell'utente corrente
   con username -> è il pathname della home di quell'utente
-
+  
+--------------------------------------------------------------------------------------
 ?  nell’argomento corrisponde a un qualsiasi carattere singolo nel 
    pathname (escluso /)
 *  nell’argomento corrisponde a una sequenza di lunghezza
@@ -132,6 +140,7 @@ usato per commentare
 ls -l ./thre*_[1-4].c
 ls -l ./{thr*,esercizio}_?.c
 
+--------------------------------------------------------------------------------------
 comando [argomento…] < pathname   redirezione dello standard input
 comando [argomento…] > pathname   redirezione dello standard output, cancellando il 
                                   vecchio contenuto del file prima di scrivere
@@ -139,13 +148,14 @@ comando [argomento…] >> pathname  redirezione dello standard output, aggiungen
                                   cosa al contenuto già esistente nel file
 ls -l ../Documents/es_so/ > ./prova.txt 
 
+--------------------------------------------------------------------------------------
 comando1 | comando2 | … | comandoN   Lo standard output di ciascun processo è connesso 
                                      dalla shell allo standard input del processo
                                      successivo (usando il meccanismo delle pipe anonime
                                      per la comunicazione tra i processi)
 ls -al ../Documents/es_so/ | wc -l
 
-
+--------------------------------------------------------------------------------------
 find pathname … [opzione…]  
 -name nome consente di selezionare tutti i pathname il cui nome
 “combacia” con l’argomento nome; l’argomento può contenere i caratteri ?
@@ -195,8 +205,7 @@ find ../Documents/es_so/ ./ -type f -mtime -7
 find ./ -type f -mtime -365 -exec mv "{}" ../Desktop/ ";"
 find ./ -ctime +9 -iname "*kk.c" -delete
 
-
-
+--------------------------------------------------------------------------------------
 $ per vedere all'interno
 PATH="$PATH:~scripts" riavviando il terminale e si è tolto
 
