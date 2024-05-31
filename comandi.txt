@@ -74,18 +74,19 @@ w=wirte
 x=execute
 
 --------------------------------------------------------------------------------------
-echo display a line of text written 
+echo   display a line of text written 
 
-mv sposta uno o più file da una directory all’altra, oppure modifica il nome di un file
+mv     sposta uno o più file da una directory all’altra, oppure modifica il nome di un 
+       file
 
-cp crea una copia di uno o più file
+cp     crea una copia di uno o più file
 
 wc     stampa il numero di linee, di parole e di byte contenuti in uno o più file
 wc -l  stampa solo il numero di linee
 
-mkdir crea una directory
+mkdir  crea una directory
 
-rmdir rimuove una directory (che deve essere vuota)
+rmdir  rimuove una directory (che deve essere vuota)
 
 comando -r   comando eseguito in maniera ricorsiva
 
@@ -96,7 +97,8 @@ Ctrl-Q: sblocca lo stesso output.
 
 --------------------------------------------------------------------------------------
 comando [argomenti…] [modificatori…]
-argomenti specificano opzioni del comando, oppure dati su cui il comando deve lavorare (pathname di file o directory)
+argomenti specificano opzioni del comando, oppure dati su cui il comando deve lavorare
+(pathname di file o directory)
 modificatori sono introdotti da caratteri speciali
 
 apropos stringa   Visualizza la lista di tutti i comandi che contengono la stringa
@@ -113,7 +115,8 @@ e che comincino con il - (trattino) o con il prefisso -- (due trattini)
 
 --------------------------------------------------------------------------------------
 Quoting di un singolo carattere: il carattere speciale viene preceduto da \ (backslash)
-Quoting di un gruppo di caratteri: racchiudendo i caratteri in una coppia di “ (apice doppio), ma alcuni caratteri speciali (in particolare $)
+Quoting di un gruppo di caratteri: racchiudendo i caratteri in una coppia di “ (apice 
+doppio), ma alcuni caratteri speciali (in particolare $)
 rm elenco\ gruppi 
 rm ’elenco gruppi’
 rm ”elenco gruppi”
@@ -226,7 +229,8 @@ così tutti i processi figlio erediteranno questa nomevar
 per ereditare un nuovo path per il processo figlio creato con uno script
 per costringerlo a vedere al variazione di variabile d'ambiente
 
-algoritmo: procedura effettiva di calcolo descritta da un numero finita di regole che conduce al risultato dopo un numero finito di passi, ossia di applicazioni delle regole
+algoritmo: procedura effettiva di calcolo descritta da un numero finita di regole che 
+conduce al risultato dopo un numero finito di passi, ossia di applicazioni delle regole
 effettiva perchè la realizzazione deve essere fisica, messa in pratica
 
 ((espressione))   è un comando!!
