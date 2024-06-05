@@ -8,9 +8,6 @@ gcc "programma".c
 
 touch "nome_file"."estensione"
 
-cat  mostra il contenuto di un file
-cat -n con le righe
-
 echo $PATH
 
 
@@ -58,10 +55,10 @@ Soft Link: è un puntatore indiretto a un file o a una directory. A differenza d
            filesystem o una partizione diversi.
         
 --------------------------------------------------------------------------------------
-chmod u+r prova.txt 
-chmod g+r prova.txt
-chmod o+x prova.txt
-chmod 441 prova.txt
+chmod u+rwx prova.txt 
+chmod a+rwx prova.txt
+chmod u+x prova.txt
+chmod 766 prova.txt
 chmod 666 prova.txt
 
 u=proprietario
@@ -83,6 +80,11 @@ cp     crea una copia di uno o più file
 
 wc     stampa il numero di linee, di parole e di byte contenuti in uno o più file
 wc -l  stampa solo il numero di linee
+wc -c  stampa solo il numero di Bytes
+wc -w  stampa solo il numero di parole
+
+cat    mostra il contenuto di un file
+cat -n mostra il contenuto di un file con le righe numerate
 
 mkdir  crea una directory
 
@@ -258,4 +260,3 @@ bash: syntax error near unexpected token `('
 ubuntu@ubuntu2304:~$ echo "((n<20))"
 ((n<20))
 ubuntu@ubuntu2304:~$  
-
