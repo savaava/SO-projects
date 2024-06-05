@@ -1,3 +1,8 @@
+algoritmo: procedura effettiva di calcolo descritta da un numero finita di regole che 
+conduce al risultato dopo un numero finito di passi, ossia di applicazioni delle regole.
+effettiva perchè la realizzazione deve essere fisica
+
+--------------------------------------------------------------------------------------
 tree
 pstree
 ps aux
@@ -8,11 +13,6 @@ gcc "programma".c
 
 touch "nome_file"."estensione"
 
-echo $PATH
-
-
-
-
 --------------------------------------------------------------------------------------
 comando [argomento…] [modificatore…]
 
@@ -21,7 +21,7 @@ Pathname relativi partono dalla directory corrente
 Un pathname relativo può specificare solo il nome del file (es. hello.c), se il
 file si trova direttamente nella directory corrente
 
-pwd     print absolute pathname of current/working directory
+pwd               print absolute pathname of current/working directory
 
 ls                mostra il contenuto di una dir
 ls -a             mostra anche i contenuti nascosti della dir
@@ -71,26 +71,37 @@ w=wirte
 x=execute
 
 --------------------------------------------------------------------------------------
-echo   display a line of text written 
+echo        display a line of text written 
 
-mv     sposta uno o più file da una directory all’altra, oppure modifica il nome di un 
-       file
+mv          sposta uno o più file da una directory all’altra, oppure modifica il nome 
+	    di un file
 
-cp     crea una copia di uno o più file
+cp     	    crea una copia di uno o più file
 
-wc     stampa il numero di linee, di parole e di byte contenuti in uno o più file
-wc -l  stampa solo il numero di linee
-wc -c  stampa solo il numero di Bytes
-wc -w  stampa solo il numero di parole
+wc          stampa il numero di linee, di parole e di byte contenuti in uno o più file
+wc -l       stampa solo il numero di linee
+wc -c  	    stampa solo il numero di Bytes
+wc -w       stampa solo il numero di parole
 
-cat    mostra il contenuto di un file
-cat -n mostra il contenuto di un file con le righe numerate
+cat         mostra il contenuto di un file
+cat -n      mostra il contenuto di un file con le righe numerate
+tail        mostra di default le ultime 10 righe di un file
+tail -n 4   mostra            le ultime 4  righe di un file
 
-mkdir  crea una directory
+mkdir       crea una directory
 
-rmdir  rimuove una directory (che deve essere vuota)
+rmdir       rimuove una directory (che deve essere vuota)
 
-comando -r   comando eseguito in maniera ricorsiva
+less        permette di ispezionare i file avanti e indietro
+more 
+
+ps          processi che la shell sta eseguendo
+
+touch file  se il file non esiste già crea il file vuoto
+            se il file     esiste già aggiorna l’ora dell’ultimo accesso e 
+            dell’ultima modifica al momento corrente.            
+
+comando -r  comando eseguito in maniera ricorsiva
 
 --------------------------------------------------------------------------------------
 Ctrl-C: interrompe l’esecuzione di un comando;
@@ -103,14 +114,16 @@ argomenti specificano opzioni del comando, oppure dati su cui il comando deve la
 (pathname di file o directory)
 modificatori sono introdotti da caratteri speciali
 
-apropos stringa   Visualizza la lista di tutti i comandi che contengono la stringa
-                  passata per parametro nella loro descrizione sintetica;
+apropos stringa       Visualizza la lista di tutti i comandi che contengono la stringa
+                      passata per parametro nella loro descrizione sintetica;
 
 whatis nome_comando   Visualizza la descrizione sintetica del comando passato come 
                       parametro;
 
-man nome_comando    Visualizza la pagina del manuale in linea relativa al comando 
-		    passato come parametro.
+which nome_comando    restituisce il percorso assoluto dei comandi di shell
+
+man nome_comando      Visualizza la pagina del manuale in linea relativa al comando 
+		      passato come parametro.
 
 opzioni prima degli altri argomenti, 
 e che comincino con il - (trattino) o con il prefisso -- (due trattini)
@@ -211,29 +224,60 @@ find ./ -type f -mtime -365 -exec mv "{}" ../Desktop/ ";"
 find ./ -ctime +9 -iname "*kk.c" -delete
 
 --------------------------------------------------------------------------------------
-$ per vedere all'interno
-PATH="$PATH:~scripts" riavviando il terminale e si è tolto
+nomevariabile=argomento    le variabili contengono sempre informazioni di tipo stringa
+$nomevariabile             la shell espande sostituendola col valore della variabile
+${nomevariabile}           è utile quando il nome della variabile è immediatamente
+                           seguito da altri caratteri alfanumerici
+var=../Downloa
+ls -l ${var}ds/
 
-$1,$2,$3,...${10},${11},...
-contengono in ordine gli argomenti usati 
+export var		   i processi figlio erediteranno questa var e la potranno 
+			   usare come le altre variabili d'ambiente
+export var=valore          direttamente
+--------------------------------------------------------------------------------------$                     per vedere all'interno, per espandere
 
-$#   numero di argomenti passati come argc, però qui non conta il nome dello script
-$*   lista di tutti gli argomenti passati
-$?   contiente l'exit status dell'ultimo comando eseguito dalla shell ->(!=0,0)
-     echo $? per vedere l'exit status, se facessimo solo $? proveremmo ad eseguire il
-     comando (0,127,...) che non esiste 
+cat /etc/shells       elenco shell disponibili
 
-env 
-per le variabili dambiente
+env                   per visualizzare il proprio ambiente corrente o eseguire un
+                      comando specificato in un ambiente modificato.
+echo $PATH 	      La variabile PATH contiene il search path usato per i comandi
+                      (separando le diverse directory con il carattere ‘:’) 
+                      path variabili d'ambiente, in cui la shell va a cercare il
+                      comando che deve eseguire
+PATH="$PATH:~scripts" aggiungere una directory al search path 
+                      riavviando il terminale e si è tolto
 
-export nomevar=valore 
-così tutti i processi figlio erediteranno questa nomevar
-per ereditare un nuovo path per il processo figlio creato con uno script
-per costringerlo a vedere al variazione di variabile d'ambiente
+echo $BASH
+echo $BASH_VERSION
 
-algoritmo: procedura effettiva di calcolo descritta da un numero finita di regole che 
-conduce al risultato dopo un numero finito di passi, ossia di applicazioni delle regole
-effettiva perchè la realizzazione deve essere fisica, messa in pratica
+-------------------------------------------------------------------------------------
+$1,$2,$3,...${10},... contengono in ordine gli argomenti usati sulla linea di
+                      comando che ha invocato lo script corrente
+
+$#                    numero di argomenti passati come argc, però qui non conta il
+                      nome dello script
+                      
+$*                    lista di tutti gli argomenti passati
+
+$?                    contiente l'exit status dell'ultimo comando eseguito dalla shell
+                      ->(!=0,0) echo $? per vedere l'exit status, se facessimo solo $?
+                      proveremmo ad eseguire il comando (0,127,...) che non esiste
+     
+--------------------------------------------------------------------------------------
+#!/bin/bash     per indicare esplicitamente nello script qual'è la shell che deve 
+                essere usata per eseguire lo script
+
+--------------------------------------------------------------------------------------
+nella shell una condizione è rappresentata dall’esecuzione di un programma: 
+se l’exit status $? del programma è 0, allora la shell considera vera la condizione
+altrimenti, considera la condizione come falsa
+
+
+((espressione))    comando che valuta espressione come un’espressione ARITMETICA del C
+                   produce un exit status che è 0 (VERO) 
+                   se il valore dell’espressione è diverso da 0
+num=42
+echo ”Il doppio di $num è $((2*num))”
 
 ((espressione))   è un comando!!
 $((espressione))  
@@ -242,21 +286,3 @@ espressione aritmetica del C
 [[ operatore-unario operando ]]
 [[ operando1 operatore-binario operando2 ]]
 lavora su pathname e stringhe
-
-;
-
-ubuntu@ubuntu2304:~$ echo $((n<20))
-1
-ubuntu@ubuntu2304:~$ echo $?
-0
-ubuntu@ubuntu2304:~$ ((n<20))
-ubuntu@ubuntu2304:~$ echo $?
-0
-ubuntu@ubuntu2304:~$ $((n<20))
-1: command not found
-ubuntu@ubuntu2304:~$ #perchè ha cercato di eseguire 1
-ubuntu@ubuntu2304:~$ echo ((n<20))
-bash: syntax error near unexpected token `('
-ubuntu@ubuntu2304:~$ echo "((n<20))"
-((n<20))
-ubuntu@ubuntu2304:~$  
