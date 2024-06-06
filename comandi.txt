@@ -11,8 +11,6 @@ ps aux | more
 gcc "programma".c
 ./a.out
 
-touch "nome_file"."estensione"
-
 --------------------------------------------------------------------------------------
 comando [argomento…] [modificatore…]
 
@@ -99,7 +97,10 @@ ps          processi che la shell sta eseguendo
 
 touch file  se il file non esiste già crea il file vuoto
             se il file     esiste già aggiorna l’ora dell’ultimo accesso e 
-            dell’ultima modifica al momento corrente.            
+            dell’ultima modifica al momento corrente. 
+            
+read                                  
+read -p     per aggiungere un prompt text 
 
 comando -r  comando eseguito in maniera ricorsiva
 
@@ -240,15 +241,16 @@ cat /etc/shells       elenco shell disponibili
 
 env                   per visualizzare il proprio ambiente corrente o eseguire un
                       comando specificato in un ambiente modificato.
-echo $PATH 	      La variabile PATH contiene il search path usato per i comandi
-                      (separando le diverse directory con il carattere ‘:’) 
-                      path variabili d'ambiente, in cui la shell va a cercare il
-                      comando che deve eseguire
+echo $PATH 	      La variabile d'ambiente PATH contiene il search path usato per i
+                      comandi (separando le diverse directory con il carattere ‘:’) 
+                      in cui la shell va a cercare il comando che deve eseguire
 PATH="$PATH:~scripts" aggiungere una directory al search path 
                       riavviando il terminale e si è tolto
 
-echo $BASH
+echo $BASH             
 echo $BASH_VERSION
+echo $REPLY
+echo $SHELL
 
 -------------------------------------------------------------------------------------
 $1,$2,$3,...${10},... contengono in ordine gli argomenti usati sulla linea di
@@ -269,20 +271,79 @@ $?                    contiente l'exit status dell'ultimo comando eseguito dalla
 
 --------------------------------------------------------------------------------------
 nella shell una condizione è rappresentata dall’esecuzione di un programma: 
-se l’exit status $? del programma è 0, allora la shell considera vera la condizione
-altrimenti, considera la condizione come falsa
+se l’exit status $? del programma è 0, allora la shell considera VERA la condizione
+altrimenti, considera la condizione come FALSA
 
 
 ((espressione))    comando che valuta espressione come un’espressione ARITMETICA del C
                    produce un exit status che è 0 (VERO) 
                    se il valore dell’espressione è diverso da 0
+                   
 num=42
 echo ”Il doppio di $num è $((2*num))”
 
-((espressione))   è un comando!!
-$((espressione))  
-espressione aritmetica del C
+--------------------------------------------------------------------------------------
+[[ operatore-unario operando ]]   valuta condizioni che riguardano stringhe o pathname
+[[ op1 operatore-binario op2 ]]   è possibile combinare più condizioni con gli 
+                                  operatori logici !, && e ||
+                                  
+[[ -e pathname ]]     # VERO se ﬁle/directory esiste
+[[ -d pathname ]]     # VERO se pathname indica una directory
+[[ -f pathname ]]     # VERO se pathname indica un  ﬁle
+[[ -x pathname ]]     # VERO se pathname ha il permesso di esec      per questo utente
+[[ -r pathname ]]     # VERO se pathname ha il permesso di lettura   per questo utente
+[[ -w pathname ]]     # VERO se pathname ha il permesso di scrittura per questo utente
+[[ -z stringa ]]      # VERO se la stringa     è vuota
+[[ -n stringa ]]      # VERO se la stringa non è vuota 
 
-[[ operatore-unario operando ]]
-[[ operando1 operatore-binario operando2 ]]
-lavora su pathname e stringhe
+[[ file1 -nt file2 ]]     # VERO se ﬁle1 è più nuovo di ﬁle2
+[[ file1 -ot file2 ]]     # VERO se ﬁle1 è più vecchio di ﬁle2
+[[ str1 == str2 ]]        # VERO se str1 è uguale a    str2
+[[ str1 != str2 ]]        # VERO se str1 è diversa da  str2
+[[ str1 < str2 ]]         # VERO se str1 è minore di   str2 (ordine lessicograﬁco)
+[[ str1 > str2 ]]         # VERO se str1 è maggiore di str2
+
+== e != riconoscono come speciali i caratteri ? e * solo in str2, ossia nell'operando2
+
+var="Pinco Pallino"
+[[ $var == "Pinco Pallino" ]]
+echo $? -> 0 perchè la shell considera VERA la condizione
+[[ $var == Pinco\ Pall* ]]
+echo $? -> 0 perchè la shell considera VERA la condizione
+[[ $var == "Pinco P*" ]]
+echo $? -> 0 perchè la shell considera FALSA la condizione, perchè * viene quotato
+
+--------------------------------------------------------------------------------------
+È possibile ottenere l’esecuzione in sequenza in uno script 
+separando i comandi con un’andata a capo 
+oppure con un ; (punto e virgola)
+
+--------------------------------------------------------------------------------------
+if comando_condizione_1; then
+	comando ...
+elif comando_condizione_2; then
+	comando ...
+...
+elif comando_condizione_N; then
+	comando ...
+else
+	comando ...
+fi
+
+--------------------------------------------------------------------------------------
+while commando_condizione; do
+	comando ...
+done
+
+--------------------------------------------------------------------------------------
+for var in arg ...; do          Esegue il corpo del ciclo assegnando la variabile a
+        comando ...             ciascuno degli argomenti dopo in
+done
+
+--------------------------------------------------------------------------------------
+$(comando)              la shell espande eseguendo il comando e "cattura" il suo
+			output, il quale può essere usato per costruire gli argomenti
+			di un altro comando
+                        
+currdir=$(pwd)
+echo "La directory corrente è $currdir"
