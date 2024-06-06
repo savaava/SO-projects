@@ -70,6 +70,7 @@ x=execute
 
 --------------------------------------------------------------------------------------
 echo        display a line of text written 
+echo -e     abilita l'interpretazione dei caratteri backslash escape, come \n
 
 mv          sposta uno o più file da una directory all’altra, oppure modifica il nome 
 	    di un file
@@ -101,6 +102,13 @@ touch file  se il file non esiste già crea il file vuoto
             
 read                                  
 read -p     per aggiungere un prompt text 
+read -s     non mostra ciò che si scrive in input da tastiera
+
+grep <stringa>  per cercare una stringa in un testo passato in ingresso al comando 
+                -> restituisce tutte le righe in cui è presente tale stringa, almeno
+                una volta 
+cat prova.txt | grep "hello w"
+grep "hello w" < prova.txt
 
 comando -r  comando eseguito in maniera ricorsiva
 
@@ -122,6 +130,8 @@ whatis nome_comando   Visualizza la descrizione sintetica del comando passato co
                       parametro;
 
 which nome_comando    restituisce il percorso assoluto dei comandi di shell
+
+who                   mostra chi ha fatto il login
 
 man nome_comando      Visualizza la pagina del manuale in linea relativa al comando 
 		      passato come parametro.
@@ -166,6 +176,9 @@ comando [argomento…] > pathname   redirezione dello standard output, cancellan
 comando [argomento…] >> pathname  redirezione dello standard output, aggiungendolo in
                                   cosa al contenuto già esistente nel file
 ls -l ../Documents/es_so/ > ./prova.txt 
+Quando si usa la redirezione in input di un file in uno script, all'interno di questo
+eseguendo read var, nella variabile var ci sarà la prima riga del file.
+eseguendo read var nuovamente, in var ci sarà la seconda riga del file.
 
 --------------------------------------------------------------------------------------
 comando1 | comando2 | … | comandoN   Lo standard output di ciascun processo è connesso 
@@ -335,10 +348,16 @@ while commando_condizione; do
 	comando ...
 done
 
+
+while commando_condizione; do
+	comando ...
+done <
+
 --------------------------------------------------------------------------------------
 for var in arg ...; do          Esegue il corpo del ciclo assegnando la variabile a
         comando ...             ciascuno degli argomenti dopo in
-done
+done                            il for mette in var ogni stringa di arg e non ogni
+				rigo 
 
 --------------------------------------------------------------------------------------
 $(comando)              la shell espande eseguendo il comando e "cattura" il suo
