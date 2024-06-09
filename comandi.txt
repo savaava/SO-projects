@@ -69,48 +69,65 @@ w=wirte
 x=execute
 
 --------------------------------------------------------------------------------------
-echo        display a line of text written 
-echo -e     abilita l'interpretazione dei caratteri backslash escape, come \n
+echo         display a line of text written 
+echo -e      abilita l'interpretazione dei caratteri backslash escape, come \n
+echo -n      non fa andare a capo alla fine dell'output che deve stampare echo
 
-mv          sposta uno o più file da una directory all’altra, oppure modifica il nome 
-	    di un file
+mv           sposta uno o più file da una directory all’altra, oppure modifica il nome 
+	     di un file
 
-cp     	    crea una copia di uno o più file
+cp     	     crea una copia di uno o più file, con i relativi permessi
 
-wc          stampa il numero di linee, di parole e di byte contenuti in uno o più file
-wc -l       stampa solo il numero di linee
-wc -c  	    stampa solo il numero di Bytes
-wc -w       stampa solo il numero di parole
+wc file, file...  stampa il numero di linee, di parole e di byte contenuti in uno o
+		  più file
+wc -l       	  stampa solo il numero di linee
+wc -c  	    	  stampa solo il numero di Bytes
+wc -w       	  stampa solo il numero di parole
+	    	  e il nome del file
 
-cat         mostra il contenuto di un file
-cat -n      mostra il contenuto di un file con le righe numerate
-tail        mostra di default le ultime 10 righe di un file
-tail -n 4   mostra            le ultime 4  righe di un file
+cat          mostra il contenuto di un file
+cat -n       mostra il contenuto di un file con le righe numerate
+tail         mostra di default le ultime 10 righe di un file
+tail -n 4    mostra            le ultime 4  righe di un file
 
-mkdir       crea una directory
+mkdir        crea una directory
 
-rmdir       rimuove una directory (che deve essere vuota)
+rmdir        rimuove una directory (che deve essere vuota)
 
-less        permette di ispezionare i file avanti e indietro
+less         permette di ispezionare i file avanti e indietro
 more 
 
-ps          processi che la shell sta eseguendo
+ps           processi che la shell sta eseguendo
 
-touch file  se il file non esiste già crea il file vuoto
-            se il file     esiste già aggiorna l’ora dell’ultimo accesso e 
-            dell’ultima modifica al momento corrente. 
+touch <file> se il file non esiste già crea il file vuoto
+             se il file     esiste già aggiorna l’ora dell’ultimo accesso e 
+             dell’ultima modifica al momento corrente. 
             
 read                                  
-read -p     per aggiungere un prompt text 
-read -s     non mostra ciò che si scrive in input da tastiera
+read -p      per aggiungere un prompt text 
+read -s      non mostra ciò che si scrive in input da tastiera
 
-grep <stringa>  per cercare una stringa in un testo passato in ingresso al comando 
-                -> restituisce tutte le righe in cui è presente tale stringa, almeno
-                una volta 
-cat prova.txt | grep "hello w"
-grep "hello w" < prova.txt
+grep <stringa>  per cercare una stringa in un file testo passato in input
+                -> restituisce in output tutte le righe in cui è presente tale
+                stringa, almeno volta 
+grep "hello w" ./prova.txt
+cat ./prova.txt | grep "hello w"
+grep "hello w" < ./prova.txt
 
-comando -r  comando eseguito in maniera ricorsiva
+sort -n  	(-n = --numeric-sort) Legge le linee del suo standard input, le ordina 
+		in base al primo campo (interpretato come valore numerico) e le stampa 
+		in output in ordine crescente 
+sort -nr	(-r = --reverse) fa la stessa cosa, ma in ordine decrescente
+
+tr [opzion…] SET1 [SET2]     Translate, squeeze, and/or delete characters from 
+			     standard input, writing to standard output. SET1 and SET2
+			     specify arrays of characters that control the action.
+tr -c 			     (-c = --complement) usa il complemento di SET1
+tr -d			     (-d = --delete) delete characters in SET1 (only SET1)
+
+awk 
+
+bc 
 
 --------------------------------------------------------------------------------------
 Ctrl-C: interrompe l’esecuzione di un comando;
@@ -183,46 +200,53 @@ eseguendo read var nuovamente, in var ci sarà la seconda riga del file.
 --------------------------------------------------------------------------------------
 comando1 | comando2 | … | comandoN   Lo standard output di ciascun processo è connesso 
                                      dalla shell allo standard input del processo
-                                     successivo (usando il meccanismo delle pipe anonime
-                                     per la comunicazione tra i processi)
+                                     successivo (usando il meccanismo delle pipe
+                                     anonime la comunicazione tra i processi)
 ls -al ../Documents/es_so/ | wc -l
 
 --------------------------------------------------------------------------------------
 find pathname … [opzione…]  
--name nome consente di selezionare tutti i pathname il cui nome
-“combacia” con l’argomento nome; l’argomento può contenere i caratteri ?
-e * (che devono essere quotati, per evitare che siano interpretati dalla
-shell!)
--iname stesso effetto di -name, ma ignora la differenza tra maiuscole e minuscole
+-name		consente di selezionare tutti i pathname il cui nome “combacia” con
+		l’argomento nome; l’argomento può contenere i caratteri ? e * (che
+		devono essere quotati, per evitare che siano interpretati dalla 
+		shell!)
+-iname 		stesso effetto di -name, ma ignora la differenza tra maiuscole e
+		minuscole
 find ../Documents/es_so/ -iname "thr*_?.c"   stampa i pathname che hanno "thr*_?.c" a
                                              partire dalla directory corrente, in
                                              maniera ricorsiva
 find ../Documents/es_so/ ./ -iname "thr*_?.c"
 
--type tipo consente di selezionare tutti i pathname di elementi che
-corrispondono a un certo tipo: 
-f -> file regolari 
-d -> directory
-l -> link simbolici
+-maxdepth x	il comando lavora al massimo fino a x levels di dir dopo il punto di 
+		partenza. -maxdepth 1 significa che find opera solo su pathname
+-mindepth x	il comando lavora come minimo a x levels dopo il punto di partenza
+		-mindepth 2 significa che find opera a partire dalle prime sottodir
+
+-type x		tipo consente di selezionare tutti i pathname di elementi che
+		corrispondono a un certo tipo: 
+		f -> file regolari 
+		d -> directory
+		l -> link simbolici
 find ../Documents/es_so/ -iname "*r*" -type d
 
--empty consente di selezionare tutti i file di dimensione 0
--size nnn consente di selezionare i pathname in base alla dimensione; la
-dimensione è specificata tramite un numero seguito da un’unità che può
-essere: c (caratteri), k (kilobyte), M (megabyte), G (gigabyte); se la dimensione
-è preceduta da +, sono selezionati i file più grandi della dimensione
-specificata; se è preceduta da -, i file più piccoli della dimensione specificata;
-altrimenti sono selezionati i file esattamente della dimensione specificata
+-empty 		consente di selezionare tutti i file di dimensione 0 
+-size nnn 	consente di selezionare i pathname in base alla dimensione; la
+		dimensione è specificata tramite un numero seguito da un’unità che può
+		essere: c (caratteri), k (kilobyte), M (megabyte), G (gigabyte); se la 
+		dimensione è preceduta da +, sono selezionati i file più grandi della 
+		dimensione specificata; se è preceduta da -, i file più piccoli della 
+		dimensione specificata; altrimenti sono selezionati i file esattamente 
+		della dimensione specificata
 find ../Documents/es_so/ -empty
 find . -size +1M
 
--ctime nnn consente di selezionare i pathname creati nnn giorni fa; se il
-numero è preceduto da +, sono selezionati i file più vecchi della data
-specificata; se è preceduto da -, i file più nuovi
--ctime         -> età del file in giorni
--cmin          -> età del file in minuti
--mtime e -mmin -> data di ultima modifica
--atime e -amin -> data di ultimo accesso
+-ctime nnn 	consente di selezionare i pathname creati nnn giorni fa; se il
+		numero è preceduto da +, sono selezionati i file più vecchi della data
+		specificata; se è preceduto da -, i file più nuovi
+-ctime          -> età del file in giorni
+-cmin           -> età del file in minuti
+-mtime e -mmin  -> data di ultima modifica
+-atime e -amin  -> data di ultimo accesso
 find ../Documents/es_so/ ./ -type f -mtime -7
 
 -print stampa                il pathname su standard output (azione di default)
@@ -266,13 +290,16 @@ echo $REPLY
 echo $SHELL
 
 -------------------------------------------------------------------------------------
-$1,$2,$3,...${10},... contengono in ordine gli argomenti usati sulla linea di
-                      comando che ha invocato lo script corrente
+$0		      contiene il nome dello script che viene eseguito
 
-$#                    numero di argomenti passati come argc, però qui non conta il
-                      nome dello script
+$1,$2,$3,...${10},... contengono in ordine gli argomenti passati dalla linea di
+                      comando quando si invoca lo script corrente $0
+
+$#                    numero di argomenti passati come argc, senza contare il nome 
+		      dello script $0
                       
-$*                    lista di tutti gli argomenti passati
+$*                    lista di tutti gli argomenti passati, senza contare il nome 
+		      dello script $0 
 
 $?                    contiente l'exit status dell'ultimo comando eseguito dalla shell
                       ->(!=0,0) echo $? per vedere l'exit status, se facessimo solo $?
@@ -349,9 +376,11 @@ while commando_condizione; do
 done
 
 
-while commando_condizione; do
+while read row; do
 	comando ...
-done <
+done < $1 > $2
+in $1 è stato passato come argomento un file di testo e la read inserisce in row un
+rigo ad ogni iterazione e poi l'output del while lo inserisce in $2
 
 --------------------------------------------------------------------------------------
 for var in arg ...; do          Esegue il corpo del ciclo assegnando la variabile a
