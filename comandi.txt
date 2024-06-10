@@ -12,15 +12,6 @@ ps aux | more
 gcc "programma".c
 ./a.out
 
-<<<<<<< HEAD
-=======
-touch "nome_file"."estensione"
-
-echo $PATH
-
-
-
->>>>>>> 1d3cedc (proviamo)
 --------------------------------------------------------------------------------------
 comando [argomenti…] [modificatori…]
 argomenti -> opzioni o dati 
