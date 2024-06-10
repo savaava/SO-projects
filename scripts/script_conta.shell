@@ -1,0 +1,21 @@
+#!/bin/bash
+#conta quante cartelle e file ci sono in un path passato da tastiera
+
+conta_d=0
+conta_f=0
+
+read -p "Inserire il path su cui lavorare: " path  #inserisco ./*
+
+for var in $path/*; do
+	if [[ -d $var ]]; then
+		conta_d=$((conta_d+1))
+		echo "$var è la dir numero $conta_d"
+	elif [[ -f $var ]]; then
+		conta_f=$((conta_f+1))
+		echo "$var è il file numero $conta_f"
+	fi
+done
+
+echo "Nel path $path ci sono $conta_d dir e $conta_f file" 
+
+exit 0

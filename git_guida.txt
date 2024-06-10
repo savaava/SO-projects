@@ -1,20 +1,25 @@
-UNA VOLTA APPORTATE LE MODIFICHE SUL PC MITTENTE:
 git add .
-git reset
 git commit -m "ciao gisà"
 git push
 
-
-SUL PC DESTINATARIO:
 git pull
 
+git reset 
+git status
 
-IN CASO DI ERRORE 
+--------------------------------------------------------------------------------------
+ERRORE 1 
 error: object file .git/objects/31/65...b0 is empty
 fatal: loose object 31...b0 (stored in .git/objects/31/65...b0) is corrupt
 
 find .git/objects/ -type f -empty | xargs rm  -> (verranno prima rimossi tutti i file oggetto vuoti che causano il danneggiamento dell'archivio nel suo complesso)
-git fetch -p				      -> (verranno recuperati gli oggetti mancanti)
-git fsck --full                               -> (verrà eseguito un controllo completo dell'archivio oggetti)
+git fetch -p	       -> verranno recuperati gli oggetti mancanti
+git fsck --full        -> verrà eseguito un controllo completo dell'archivio oggetti
 
+--------------------------------------------------------------------------------------
+ERRORE 2
+error: Pulling is not possible because you have unmerged files.
+git rebase --skip      -> salta semplicemente l’intero commit che sta causando il
+			  conflitto. Saltare un commit potrebbe comportare la perdita
+			  di alcune modifiche
 
