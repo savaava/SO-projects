@@ -41,7 +41,7 @@ quando un processo arriva nella coda dei processi pronti con un tempo di computa
 
 --------------------------------------------------------------------------------------
 Schedulazione a priorità
-
+L’algoritmo può essere sia non-preemptive, che preemptive
 I processi con priorità uguale vengono schedulati in ordine FCFS
 
 con RR -> i processi con priorità uguale vengono alternati secondo il q, altrimenti vengono eseguiti prima quelli con priorità più alta

@@ -118,7 +118,13 @@ read -s      non mostra ciò che si scrive in input da tastiera
 grep <stringa>  per cercare una stringa in un file testo passato in input
                 -> restituisce in output tutte le righe in cui è presente tale
                 stringa, almeno volta
-grep -c
+grep -i		(-i = --ignore-case) non è case sensitive
+grep -v 	(-v = --invert-match) Invert the sense of matching, to select non-
+		matching lines
+grep -c         (-c = --count) stampa solo il numero delle linee che matchano,
+		equivalente a grep <stringa> | wc -l
+		With the -v option, count  non-lines.
+
 
 sort -n  	(-n = --numeric-sort) Legge le linee del suo standard input, le ordina 
 		in base al primo campo (interpretato come valore numerico) e le stampa 
