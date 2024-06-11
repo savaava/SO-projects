@@ -1,0 +1,57 @@
+tempo di burst T_b:     il tempo di computazione che impiega la CPU a terminare il 
+			processo.
+
+arrival time:		l'istante in cui il processo arriva nella coda, ed è
+			nello stato di pronto, e formula la richiesta di essere
+			eseguito.
+			
+turnaround time T_c:	è il tempo di completamento totale, dal momento
+			dell’immissione del processo nel sistema al momento
+			del completamento (T_c = T_b + T_a)
+			
+tempo di attesa T_a:    è la somma dei tempi spesi dal processo in attesa nella coda
+			dei processi pronti.
+			L’algoritmo di scheduling inﬂuisce solo sul tempo di attesa,
+			non sul tempo di esecuzione
+			
+tempo di risposta T_r:  tempo che intercorre dalla formulazione della richiesta fino
+			alla produzione della prima risposta
+			
+--------------------------------------------------------------------------------------
+schedulazioni     preemptive  ->  con sospensione dell’esecuzione del processo
+schedulazioni non-preemptive  ->  con sospensione dell’esecuzione del processo 
+
+--------------------------------------------------------------------------------------
+Schedulazione FCFS = First-Come, First-Served
+L’algoritmo è solo di tipo non-preemptive
+I processi lasciano la CPU solo di spontanea volontà (vanno in attesa o terminano)
+
+--------------------------------------------------------------------------------------
+Schedulazione SJF = Shortest-Job-First
+L’algoritmo può essere sia non-preemptive, che preemptive
+A parità di lunghezza del picco successivo si applica FCFS
+
+Schedulazione SJF non-preemptive
+quando un processo arriva nella coda dei processi pronti mentre il processo precedente
+è ancora in esecuzione, l’algoritmo permette al processo corrente di finire il suo uso
+della CPU, anche se il processo arrivato ha un T_b più breve di quanto rimane al P curr
+
+Schedulazione SJF preemptive  ->  SRTF = Shortest-Remaining-Time-First
+quando un processo arriva nella coda dei processi pronti con un tempo di computazione minore del tempo che rimane al processo correntemente in esecuzione, l’algoritmo ferma il processo corrente
+
+--------------------------------------------------------------------------------------
+Schedulazione a priorità
+
+I processi con priorità uguale vengono schedulati in ordine FCFS
+
+con RR -> i processi con priorità uguale vengono alternati secondo il q, altrimenti vengono eseguiti prima quelli con priorità più alta
+
+In alcuni sistemi la priorità più alta corrisponde al numero più basso
+
+--------------------------------------------------------------------------------------
+Schedulazione RR = Round Robin  ->  FCFS preemptive
+scheduling circolare
+per alternare i processi (coda FIFO circolare)
+Ogni processo possiede un quanto di tempo (time slice) q di utilizzo della CPU
+
+--------------------------------------------------------------------------------------
