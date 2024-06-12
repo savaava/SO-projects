@@ -31,6 +31,24 @@ Pathname relativi partono dalla directory corrente
 	     con username -> è il pathname della home di quell'utente
 
 --------------------------------------------------------------------------------------
+Ctrl-C: interrompe l’esecuzione di un comando;
+Ctrl-S: blocca l’output che scorre sullo schermo;
+Ctrl-Q: sblocca lo stesso output.
+
+apropos <stringa>     Visualizza la lista di tutti i comandi che contengono la stringa
+                      passata per parametro nella loro descrizione sintetica;
+
+whatis <comando>      Visualizza la descrizione sintetica del comando passato come 
+                      parametro;
+
+which <comando>       restituisce il percorso assoluto dei comandi di shell
+
+who                   mostra chi ha fatto il login
+
+man <comando>         Visualizza la pagina del manuale in linea relativa al comando 
+		      passato come parametro.
+
+--------------------------------------------------------------------------------------
 ln   crea link a file e directory
 
 rm   rimuove un link da una directory, ma non cancella necessariamente il file    
@@ -70,10 +88,16 @@ pwd               print absolute pathname of current/working directory
 cd <pathname>     change current dir
 
 ls                mostra il contenuto di una dir
-ls -a             (-a = --all) mostra anche i contenuti nascosti della dir
+ls -a             (-a = --all)  mostra anche i contenuti nascosti
 ls -l             (-l = --long) mostra in fomato lungo della dir: permessi, bytes, età
+ls -lh		  (-h = --human-readable) con -l o -s, mostra le dim in KB, MB, GB 
 ls -al
-ls -1 		
+ls -1 		  mostra 1 elemento per rigo
+ls -R		  (-R = --recursive) lista anche le sottodir ricorsivamente
+ls -r             (-r = --reverse) inverte l'ordine di output
+ls -t		  sort by time -> newest first
+ls -S		  sort by size -> larger first
+ls -s		  (-s = --size) mostra anche il numero di blocks allocati
 
 echo         display a line of text written 
 echo -e      enable interpretation of backslash escapes, like \n
@@ -89,31 +113,36 @@ wc file, file...  stampa il numero di linee, di parole e di byte contenuti in un
 wc -l       	  stampa solo il numero di linee
 wc -w       	  stampa solo il numero di parole
 wc -c  	    	  stampa solo il numero di Bytes
-	    	  e il nome del file
+	    	  e il nome del/dei file, se questi sono in input a wc come argomenti
 
-cat          mostra il contenuto di un file di testo preso in input
-cat -n       mostra il contenuto di un file con le righe numerate
-tail         mostra di default le ultime 10 righe di un file
-tail -n x    mostra            le ultime  x righe di un file
-head         mostra di default le prime  10 righe di un file
-head -n x    mostra            le prime   x righe di un file
+cat               mostra il contenuto di un file di testo preso in input
+cat -n       	  mostra il contenuto di un file con le righe numerate
+tail         	  mostra di default le ultime 10 righe di un file
+tail -n x    	  mostra            le ultime  x righe di un file
+head         	  mostra di default le prime  10 righe di un file
+head -n x    	  mostra            le prime   x righe di un file
 
-mkdir        crea una directory
+mkdir <names>     crea una o più dir
 
-rmdir        rimuove una directory (che deve essere vuota)
+rmdir <dirs>      rimuove 1 o più dir (empty)
 
-less         permette di ispezionare i file avanti e indietro
+rm <files|dirs>   rimuove 1 o più file o dir
+rm -r		  (-r = --recursive) rimuove le dir e i loro contenuti ricorsivamente
+rm -i		  prompt before every removal
+rm -d		  (-d = --dir) rimuove le dir vuote
+
+less         	  permette di ispezionare i file ricevuti in input avanti e indietro
 more 
 
-ps           processi che la shell sta eseguendo
+ps           	  processi che la shell sta eseguendo
 
-touch <file> se il file non esiste già crea il file vuoto
-             se il file     esiste già aggiorna l’ora dell’ultimo accesso e 
-             dell’ultima modifica al momento corrente. 
+touch <file> 	  se il file non esiste già crea il file vuoto
+             	  se il file     esiste già aggiorna l’ora dell’ultimo accesso e 
+             	  dell’ultima modifica al momento corrente. 
             
-read                                  
-read -p      per aggiungere un prompt text 
-read -s      non mostra ciò che si scrive in input da tastiera
+read <var>                                 
+read -p      	  per aggiungere un prompt text 
+read -s      	  non mostra ciò che si scrive in input da tastiera
 
 grep <stringa>  per cercare una stringa in un file testo passato in input
                 -> restituisce in output tutte le righe in cui è presente tale
@@ -124,7 +153,6 @@ grep -v 	(-v = --invert-match) Invert the sense of matching, to select non-
 grep -c         (-c = --count) stampa solo il numero delle linee che matchano,
 		equivalente a grep <stringa> | wc -l
 		With the -v option, count  non-lines.
-
 
 sort -n  	(-n = --numeric-sort) Legge le linee del suo standard input, le ordina 
 		in base al primo campo (interpretato come valore numerico) e le stampa 
@@ -159,12 +187,15 @@ scale=x			     x = numero di cifre decimali.
 			     delle funzioni per stampare il risultato delle funzioni
 			     con una precisione di x cifre decimali.
 
-basename pathname [SUFFIX]   Print NAME with any leading directory components
+basename <pathname> <suffix> Print NAME with any leading directory components
 			     removed. If specified, also remove a trailing SUFFIX.
-basename -a		     (-a = --multiple) support multiple arguments
-basename -s 		     (-s = --suffix) remove a trailing suffix, implies -a
-basename -z		     (-z = --zero) end each output line with NUL, not newline
+-a <pathnames>	             (-a = --multiple) support multiple pathname
+-s <suffix> <pathnames>	     (-s = --suffix) remove a trailing suffix, implies -a
+-z		             (-z = --zero) end each output line with NUL, not newline
 
+---------ESEMPI---------
+ls -lth
+ls -1t
 
 grep "hello w" ./prova.txt
 cat ./prova.txt | grep "hello w"
@@ -175,25 +206,7 @@ echo -e "Ciao\nMondo\nhello" | grep "[[:upper:]]" | tr [:upper:] [:lower:]
 echo -e "scale=3 \n 12/7; scale=5; e(1)" | bc -l
 echo 12.0/3 | bc -l
 
-basename -a $(find ./ -maxdepth 1 -name "*.sh" -type f)
-
---------------------------------------------------------------------------------------
-Ctrl-C: interrompe l’esecuzione di un comando;
-Ctrl-S: blocca l’output che scorre sullo schermo;
-Ctrl-Q: sblocca lo stesso output.
-
-apropos stringa       Visualizza la lista di tutti i comandi che contengono la stringa
-                      passata per parametro nella loro descrizione sintetica;
-
-whatis nome_comando   Visualizza la descrizione sintetica del comando passato come 
-                      parametro;
-
-which nome_comando    restituisce il percorso assoluto dei comandi di shell
-
-who                   mostra chi ha fatto il login
-
-man nome_comando      Visualizza la pagina del manuale in linea relativa al comando 
-		      passato come parametro.
+basename -s .sh $(find ./ -maxdepth 1 -name "*.sh" -type f)
 
 --------------------------------------------------------------------------------------
 Quoting di un singolo carattere: il carattere speciale viene preceduto da \
@@ -235,26 +248,27 @@ comando1 | comando2 | … | comandoN   Lo standard output di ciascun processo è
                                      anonime la comunicazione tra i processi)
 
 --------------------------------------------------------------------------------------
-find pathname … [opzione…]  
--name		consente di selezionare tutti i pathname il cui nome “combacia” con
+find pathname … [opzione…]
+
+-maxdepth <n>	il comando lavora al massimo fino a n levels di dir dopo il punto di 
+		partenza. -maxdepth 1 significa che find opera solo su pathname
+-mindepth <n>	il comando lavora come minimo a n levels dopo il punto di partenza
+		-mindepth 2 significa che find opera a partire dalle prime sottodir
+
+-name <nome>	consente di selezionare tutti i pathname il cui nome “combacia” con
 		l’argomento nome; l’argomento può contenere i caratteri ? e * (che
 		devono essere quotati, per evitare che siano interpretati dalla 
 		shell!)
--iname 		stesso effetto di -name, ma non è case sensitive
+-iname <nome>	stesso effetto di -name, ma non è case sensitive
 
--maxdepth x	il comando lavora al massimo fino a x levels di dir dopo il punto di 
-		partenza. -maxdepth 1 significa che find opera solo su pathname
--mindepth x	il comando lavora come minimo a x levels dopo il punto di partenza
-		-mindepth 2 significa che find opera a partire dalle prime sottodir
-
--type x		tipo consente di selezionare tutti i pathname di elementi che
+-type <x>	tipo consente di selezionare tutti i pathname di elementi che
 		corrispondono a un certo tipo: 
 		f -> file regolari 
 		d -> directory
 		l -> link simbolici
 
 -empty 		consente di selezionare tutti i file di dimensione 0 
--size nnn 	consente di selezionare i pathname in base alla dimensione; la
+-size <n> 	consente di selezionare i pathname in base alla dimensione; la
 		dimensione è specificata tramite un numero seguito da un’unità che può
 		essere: c (caratteri), k (kilobyte), M (megabyte), G (gigabyte); se la 
 		dimensione è preceduta da +, sono selezionati i file più grandi della 
@@ -262,9 +276,9 @@ find pathname … [opzione…]
 		dimensione specificata; altrimenti sono selezionati i file esattamente 
 		della dimensione specificata
 
--ctime nnn 	consente di selezionare i pathname creati nnn giorni fa; se il
-		numero è preceduto da +, sono selezionati i file più vecchi della data
-		specificata; se è preceduto da -, i file più nuovi
+-ctime <n> 	consente di selezionare i pathname creati n giorni fa
+		<+n> -> sono selezionati i file più vecchi della data specificata
+		<-n> -> sono selezionati i file più nuovi  della data specificata
 -ctime          -> età del file in giorni
 -cmin           -> età del file in minuti
 -mtime e -mmin  -> data di ultima modifica
@@ -273,26 +287,27 @@ find pathname … [opzione…]
 -print stampa                il pathname su standard output (azione di default)
 -fprint filename             scrive il pathname nel file indicato
 -delete                      rimuove il pathname con il comando rm
--exec comando argomenti… ’;’ esegue il comando specificato; negli argomenti, la
-			     stringa
-                             ‘{}’ viene sostituita con il pathname Nota: gli argomenti
-                             del comando da eseguire devono essere terminati da un ;
-                             quotato
--ok comando argomenti… ’;’   come -exec, ma chiede conferma all’utente prima di
-			     eseguire
-			     ogni comando
+-exec <comando> {} ... \;    esegue il comando specificato
+			     negli argomenti, la stringa {} viene sostituita con il 
+			     pathname di ogni elemento trovato da find
+			     terminare con un ; quotato
+-ok <comando> {} ... \;      come -exec, ma chiede conferma all’utente prima di
+			     eseguire ogni comando
 
-find ../Documents/es_so/ ./ -iname "thr*_?.c"
+---------ESEMPI---------
+find ./ ../threads -iname "*r*_*.*"
+		
+find ./ -maxdepth 1 -name "*ript*.sh" -type f -ctime -1 | wc -l
+basename -a $(find ./ ../threads -maxdepth 1 -name "*_*" -type f -cmin +60)
+basename -s .sh $(find ./ -maxdepth 1 -name "*ript*.sh" -type f -size +700c)
 
-find ../Documents/es_so/ -iname "*r*" -type d
-
-find ../Documents/es_so/ -empty
-find . -size +1M
-			     
 find ../Documents/es_so/ ./ -type f -mtime -7		     
 			     
-find ./ -type f -mtime -365 -exec mv "{}" ../Desktop/ ";"
+find ./ -type f -mtime -365 -exec mv {} ../Desktop/ ";"
 find ./ -ctime +9 -iname "*kk.c" -delete
+
+find $1 -maxdepth 1 -iname "*$2*" -type f -exec mv {} $3 \;
+find $1 -maxdepth 1 -iname "*$2*" -type f -ok mv {} $3 \;
 
 --------------------------------------------------------------------------------------
 nomevariabile=argomento    le variabili contengono sempre informazioni di tipo stringa
@@ -324,10 +339,10 @@ echo $REPLY
 echo $SHELL
 
 -------------------------------------------------------------------------------------
-$0		      contiene il nome dello script che viene eseguito
+$0		      contiene il nome dello script che è stato invocato
 
 $1,$2,$3,...${10},... contengono in ordine gli argomenti passati dalla linea di
-                      comando quando si invoca lo script corrente $0
+                      comando
 
 $#                    numero di argomenti passati come argc, senza contare il nome 
 		      dello script $0
@@ -345,7 +360,7 @@ $?                    contiente l'exit status dell'ultimo comando eseguito dalla
 
 È possibile ottenere l’esecuzione in sequenza in uno script 
 separando i comandi con un’andata a capo 
-oppure con un ; (punto e virgola)
+oppure con ;
 
 --------------------------------------------------------------------------------------
 nella shell una condizione è rappresentata dall’esecuzione di un programma: 
@@ -437,3 +452,5 @@ un processo in background
 La shell non aspetta la sua terminazione prima di passare al comando successivo
 I caratteri digitati dall’utente al terminale non vanno nello stdin del processo
 Il processo non viene terminato se viene chiuso il terminale
+
+--------------------------------------------------------------------------------------

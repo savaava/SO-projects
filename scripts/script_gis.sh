@@ -34,30 +34,30 @@
 # 3 - Si usi il comando awk '{print $i}’ che consente di stampare l’i-ma stringa di ogni riga di un file.
 
 # --- queste istruzioni creano i file di prova  ---
-#mkdir files
-#cat > files/FiLe1.txt <<EOF
-#NUMERO 3
-#EOF
+mkdir files
+cat > files/FiLe1.txt <<EOF
+NUMERO 3
+EOF
 
-#cat > files/PILpo.txt <<EOF
-#NUMERO 4
-#EOF
+cat > files/PILpo.txt <<EOF
+NUMERO 4
+EOF
 
-#cat > files/cIaO.txt <<EOF
-#NUMERO 5
-#EOF
+cat > files/cIaO.txt <<EOF
+NUMERO 5
+EOF
 
-#cat > files/oTTo.txt <<EOF
-#NUMERO 6
-#EOF
+cat > files/oTTo.txt <<EOF
+NUMERO 6
+EOF
 
-#mkdir target
-#mkdir others
+mkdir target
+mkdir others
 
 #------------- Inserire qui il codice dello script -------------
 
 if (($#!=4)); then
-    echo "syntax: $0 <source_dir> <stringa> <dest_dir_1> <dest_dir_2>"
+    echo "Syntax: $0 <source_dir> <stringa> <dest_dir_1> <dest_dir_2>"
     exit 1
 fi
 
@@ -112,28 +112,22 @@ for file in $(find ./ -maxdepth 1 -type f); do
     fi
 done
 
+cd $path
 
-n1=0
-for file in $(find ./ -maxdepth 1 -iname "*$2*" -type f); do
-    cd $path
-    n1=$((n1+1))
-    mv ./$1/$file ./$3/$file
-    echo "n1=$n1 -> ho spostato $file in $3"
-    cd $1
-done
+#sposto i file che matchano in $3
+n1=$(find $1 -maxdepth 1 -iname "*$2*" -type f | wc -l)
+find $1 -maxdepth 1 -iname "*$2*" -type f -exec mv {} $3 \;
 
-n2=0
-for file in $(find ./ -maxdepth 1 -type f); do
-    cd $path
-    n2=$((n2+1))
-    mv ./$1/$file ./$4/$file
-    echo "n2=$n2 -> ho spostato $file in $4"
-    cd $1
-done
+#sposto i restanti file in $4
+n2=$(find $1 -maxdepth 1 -type f | wc -l)
+find $1 -maxdepth 1 -type f -exec mv {} $4 \;
 
-echo "Spostati $n1 files nella cartella $3"
+echo -e "\nSpostati $n1 files nella cartella $3"
 echo "Spostati $n2 files nella cartella $4"
 
-cd $path
+echo -e "\nlist1 delle sottodir $1 $3 $4:"
+ls -1R #per un controllo finale
+
+rm -r $1 $3 $4
 
 exit 0
