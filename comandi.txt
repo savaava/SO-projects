@@ -91,7 +91,6 @@ ls                mostra il contenuto di una dir
 ls -a             (-a = --all)  mostra anche i contenuti nascosti
 ls -l             (-l = --long) mostra in fomato lungo della dir: permessi, bytes, età
 ls -lh		  (-h = --human-readable) con -l o -s, mostra le dim in KB, MB, GB 
-ls -al
 ls -1 		  mostra 1 elemento per rigo
 ls -R		  (-R = --recursive) lista anche le sottodir ricorsivamente
 ls -r             (-r = --reverse) inverte l'ordine di output
