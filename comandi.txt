@@ -115,7 +115,7 @@ pwd               print absolute pathname of current/working directory
 cd <pathname>     change current dir
 
 
-ls                mostra il contenuto di una dir
+ls <path>...      mostra il contenuto di una dir
 ls -a             (-a = --all)  mostra anche i contenuti nascosti
 ls -l             (-l = --long) mostra in fomato lungo della dir: permessi, bytes, età
 ls -lh		  (-h = --human-readable) con -l o -s, mostra le dim in KB, MB, GB 
@@ -133,9 +133,9 @@ echo -n      non fa andare a capo alla fine dell'output
 
 
 wc <file> <file>... stampa #linee #parole #byte contenuti in uno o più file in input
-wc -l       	    stampa solo il numero di linee
-wc -w       	    stampa solo il numero di parole
-wc -c  	    	    stampa solo il numero di Bytes
+wc -l       	    (-l = --lines) stampa solo il numero di linee
+wc -w       	    (-w = --words) stampa solo il numero di parole
+wc -c  	    	    (-c = --bytes) stampa solo il numero di caratteri
 	    	    e il nome del/dei file, se questi sono in input come argomenti
 
 
@@ -220,17 +220,17 @@ ${var:pos}		     in una variabile
 			     len è il numero di caratteri da estrarre
 
 
-tr [opzion…] SET1 [SET2]     Translate, squeeze, and/or delete characters from 
-			     standard input, writing to standard output. SET1 and SET2
-			     specify arrays of characters that control the action.
-tr -c 			     (-c = --complement) usa il complemento di SET1
-tr -d			     (-d = --delete) delete characters in SET1 (only SET1)
-tr [opzion…] char1-char2     SET -> all characters from CHAR1 to CHAR2
-tr [opzion…] [:upper:]	     SET -> all upper case letters
-tr [opzion…] [:lower:]	     SET -> all lower case letters
-tr [opzion…] [:alpha:]	     SET -> all letters
-tr [opzion…] [:digit:]       SET -> all digits
-tr [opzion…] [:alnum:]       SET -> all letters and digits
+tr SET1 [SET2]     Translate, squeeze, and/or delete characters from 
+		   standard input, writing to standard output. SET1 and SET2
+		   specify arrays of characters that control the action.
+tr -c 		   (-c = --complement) usa il complemento di SET1
+tr -d		   (-d = --delete) delete characters in SET1 (only SET1)
+tr char1-char2     SET -> all characters from CHAR1 to CHAR2
+tr [:upper:]	   SET -> all upper case letters
+tr [:lower:]	   SET -> all lower case letters
+tr [:alpha:]	   SET -> all letters
+tr [:digit:]       SET -> all digits
+tr [:alnum:]       SET -> all letters and digits
 
 
 bc -l			     (-l = --mathlib) vengono pre-caricate alcune funzioni:
@@ -324,7 +324,6 @@ find ./ -ctime +9 -iname "*kk.c" -delete
 
 find $1 -maxdepth 1 -iname "*$2*" -type f -exec mv {} $3 \;
 find $1 -maxdepth 1 -iname "*$2*" -type f -ok mv {} $3 \;
-
 
 --------------------------------------------------------------------------------------
 comando [argomento…] < pathname   redirezione dello standard input
@@ -477,7 +476,7 @@ done                            il for mette in var ogni STRINGA di arg e non og
 
 for var in arg ...; do     
         comando ...             
-done >$i
+done >$2
 --------------------------------------------------------------------------------------
 $(comando)              la shell espande eseguendo il comando e "cattura" il suo
 			output, il quale può essere usato per costruire gli argomenti
