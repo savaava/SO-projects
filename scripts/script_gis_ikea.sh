@@ -74,3 +74,12 @@ echo "Ci sono $n2 file che iniziano con una minuscola"
 rm -r $1
 
 exit 0
+
+#se voglio stampare la seconda stringa e non la seconda riga:
+            n=1
+            for parola in $(cat $file); do
+                if ((n==2)); then
+                    echo "$(basename $file) -> $file -> $parola" 
+                fi
+                n=$((n+1))
+            done
