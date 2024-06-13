@@ -83,9 +83,22 @@ w=wirte
 x=execute
 
 --------------------------------------------------------------------------------------
+less         	  permette di ispezionare i file ricevuti in input avanti e indietro
+more 
+
+ps           	  processi che la shell sta eseguendo
+
+
+touch <file> 	  se il file non esiste già crea il file vuoto
+             	  se il file     esiste già aggiorna l’ora dell’ultimo accesso e 
+             	  dell’ultima modifica al momento corrente. 
+
+
 pwd               print absolute pathname of current/working directory
 
+
 cd <pathname>     change current dir
+
 
 ls                mostra il contenuto di una dir
 ls -a             (-a = --all)  mostra anche i contenuti nascosti
@@ -98,50 +111,62 @@ ls -t		  sort by time -> newest first
 ls -S		  sort by size -> larger first
 ls -s		  (-s = --size) mostra anche il numero di blocks allocati
 
+
 echo         display a line of text written 
 echo -e      enable interpretation of backslash escapes, like \n
 echo -n      non fa andare a capo alla fine dell'output
 
-mv           sposta uno o più file da una directory all’altra, oppure modifica il nome 
-	     di un file, con i relativi permessi
 
-cp     	     crea una copia di uno o più file, con i relativi permessi
+wc <file> <file>... stampa #linee #parole #byte contenuti in uno o più file in input
+wc -l       	    stampa solo il numero di linee
+wc -w       	    stampa solo il numero di parole
+wc -c  	    	    stampa solo il numero di Bytes
+	    	    e il nome del/dei file, se questi sono in input come argomenti
 
-wc file, file...  stampa il numero di linee, di parole e di byte contenuti in uno o
-		  più file
-wc -l       	  stampa solo il numero di linee
-wc -w       	  stampa solo il numero di parole
-wc -c  	    	  stampa solo il numero di Bytes
-	    	  e il nome del/dei file, se questi sono in input a wc come argomenti
 
 cat               mostra il contenuto di un file di testo preso in input
-cat -n       	  mostra il contenuto di un file con le righe numerate
+cat -n       	  (-n = --number)          numera le linee
+cat -b		  (-b = --number-nonblank) numera le linee non vuote
+cat -s		  (-s = --squeeze-blank) comprime le linee vuote multiple in una sola
+
+
 tail         	  mostra di default le ultime 10 righe di un file
 tail -n x    	  mostra            le ultime  x righe di un file
 head         	  mostra di default le prime  10 righe di un file
 head -n x    	  mostra            le prime   x righe di un file
 
-mkdir <names>     crea una o più dir
 
-rmdir <dirs>      rimuove 1 o più dir (empty)
+mkdir <name> <name>...  crea una o più dir
+rmdir <dir> <dir>...    rimuove 1 o più dir (empty) 
+
 
 rm <files|dirs>   rimuove 1 o più file o dir
 rm -r		  (-r = --recursive) rimuove le dir e i loro contenuti ricorsivamente
-rm -i		  prompt before every removal
-rm -d		  (-d = --dir) rimuove le dir vuote
+rm -i		  (-i = --interactive) prompt before every removal
 
-less         	  permette di ispezionare i file ricevuti in input avanti e indietro
-more 
 
-ps           	  processi che la shell sta eseguendo
+mv <source_dir|source_file> <dest_dir|dest_file> 	
+		sposta uno o più file da una directory all’altra, oppure modifica
+		il nome di un file, con i relativi permessi
+mv -i		(-i = --interactive) prompt before overwrite
+mv -n		(-n = --no-clobber)  non sovrascrive i file esistenti
+mv -u           (-u = --update)      sposta solo quando il file source è più recente
+		del dest_file, o quando il dest_file non esiste
 
-touch <file> 	  se il file non esiste già crea il file vuoto
-             	  se il file     esiste già aggiorna l’ora dell’ultimo accesso e 
-             	  dell’ultima modifica al momento corrente. 
-            
-read <var>                                 
-read -p      	  per aggiungere un prompt text 
-read -s      	  non mostra ciò che si scrive in input da tastiera
+
+cp <source_dir|source_file> <dest_dir|dest_file> 
+		crea una copia di uno o più file, con i relativi permessi,
+		se il nome della dest è lo stesso di un elemento già presente,
+		allora sovrascrive (overwrite)
+cp -r		(-r = --recursive)   copia le dir e i loro contenuti ricorsivamente
+cp -i		(-i = --interactive) prompt before overwrite
+cp -n		(-n = --no-clobber)  non sovrascrive i file esistenti
+
+
+read <var> <var>...  legge da tastiera 1 o più stringhe e la/le inserisce in var
+read -p      	     per aggiungere un prompt text 
+read -s      	     non mostra ciò che si scrive in input da tastiera
+
 
 grep <stringa>  per cercare una stringa in un file testo passato in input
                 -> restituisce in output tutte le righe in cui è presente tale
@@ -152,11 +177,24 @@ grep -v 	(-v = --invert-match) Invert the sense of matching, to select non-
 grep -c         (-c = --count) stampa solo il numero delle linee che matchano,
 		equivalente a grep <stringa> | wc -l
 		With the -v option, count  non-lines.
+		
 
 sort -n  	(-n = --numeric-sort) Legge le linee del suo standard input, le ordina 
 		in base al primo campo (interpretato come valore numerico) e le stampa 
 		in output in ordine crescente 
 sort -nr	(-r = --reverse) fa la stessa cosa, ma in ordine decrescente
+
+
+basename <pathname> <suffix> Print NAME with any leading directory components
+			     removed. If specified, also remove a trailing SUFFIX.
+-a <pathnames>	             (-a = --multiple) support multiple pathname
+-s <suffix> <pathnames>	     (-s = --suffix) remove a trailing suffix, implies -a
+-z		             (-z = --zero) end each output line with NUL, not newline
+
+
+awk 'pattern {action}'       utile per manipolare file di testo con colonne di dati
+awk '{print $i}’             stampa l’i-ma stringa di ogni riga di del file in input
+
 
 tr [opzion…] SET1 [SET2]     Translate, squeeze, and/or delete characters from 
 			     standard input, writing to standard output. SET1 and SET2
@@ -170,9 +208,6 @@ tr [opzion…] [:alpha:]	     SET -> all letters
 tr [opzion…] [:digit:]       SET -> all digits
 tr [opzion…] [:alnum:]       SET -> all letters and digits
 
-awk 'pattern {action}'       utile per manipolare file di testo che contengono colonne
-			     di dati
-awk '{print $i}’             stampa l’i-ma stringa di ogni riga di del file in input
 
 bc -l			     (-l = --mathlib) vengono pre-caricate alcune funzioni:
 				s(x)  The sine   of x, x in rad
@@ -186,11 +221,6 @@ scale=x			     x = numero di cifre decimali.
 			     delle funzioni per stampare il risultato delle funzioni
 			     con una precisione di x cifre decimali.
 
-basename <pathname> <suffix> Print NAME with any leading directory components
-			     removed. If specified, also remove a trailing SUFFIX.
--a <pathnames>	             (-a = --multiple) support multiple pathname
--s <suffix> <pathnames>	     (-s = --suffix) remove a trailing suffix, implies -a
--z		             (-z = --zero) end each output line with NUL, not newline
 
 ---------ESEMPI---------
 ls -lth
@@ -208,46 +238,7 @@ echo 12.0/3 | bc -l
 basename -s .sh $(find ./ -maxdepth 1 -name "*.sh" -type f)
 
 --------------------------------------------------------------------------------------
-Quoting di un singolo carattere: il carattere speciale viene preceduto da \
-Quoting di un gruppo di caratteri: racchiudendo i caratteri in una coppia di "
-ma alcuni caratteri speciali (in particolare $) non vengono quotati
-
-#
-echo Salve, mondo \# Saluta tutti
-In fase di espansione, la shell cancella il carattere # (detto hash) (a meno
-che non sia quotato) e tutti i caratteri seguenti fino alla fine della linea
-usato per commentare
-  
---------------------------------------------------------------------------------------
-?  nell’argomento corrisponde a un qualsiasi carattere singolo nel 
-   pathname (escluso /)
-*  nell’argomento corrisponde a una sequenza di lunghezza
-   qualsiasi (anche 0) di caratteri qualsiasi (escluso /) nel pathname
-
-[ ]: singolo carattere tra quelli elencati
-{ }: stringa tra quelle elencate
-ls -l ./thre*_[1-4].c
-ls -l ./{thr*,esercizio}_?.c
-
---------------------------------------------------------------------------------------
-comando [argomento…] < pathname   redirezione dello standard input
-comando [argomento…] > pathname   redirezione dello standard output, cancellando il 
-                                  vecchio contenuto del file prima di scrivere
-comando [argomento…] >> pathname  redirezione dello standard output, aggiungendolo in
-                                  coda al contenuto già esistente nel file
-ls -l ../Documents/es_so/ > ./prova.txt 
-Quando si usa la redirezione in input di un file in uno script, all'interno di questo
-eseguendo read var, nella variabile var ci sarà la prima riga del file.
-eseguendo read var nuovamente, in var ci sarà la seconda riga del file.
-
---------------------------------------------------------------------------------------
-comando1 | comando2 | … | comandoN   Lo standard output di ciascun processo è connesso 
-                                     dalla shell allo standard input del processo
-                                     successivo (usando il meccanismo delle pipe
-                                     anonime la comunicazione tra i processi)
-
---------------------------------------------------------------------------------------
-find pathname … [opzione…]
+find <pathname> <pathname> ... [opzione] [opzione] ...
 
 -maxdepth <n>	il comando lavora al massimo fino a n levels di dir dopo il punto di 
 		partenza. -maxdepth 1 significa che find opera solo su pathname
@@ -309,6 +300,45 @@ find $1 -maxdepth 1 -iname "*$2*" -type f -exec mv {} $3 \;
 find $1 -maxdepth 1 -iname "*$2*" -type f -ok mv {} $3 \;
 
 --------------------------------------------------------------------------------------
+Quoting di un singolo carattere: il carattere speciale viene preceduto da \
+Quoting di un gruppo di caratteri: racchiudendo i caratteri in una coppia di "
+ma alcuni caratteri speciali (in particolare $) non vengono quotati
+
+#
+echo Salve, mondo \# Saluta tutti
+In fase di espansione, la shell cancella il carattere # (detto hash) (a meno
+che non sia quotato) e tutti i caratteri seguenti fino alla fine della linea
+usato per commentare
+  
+--------------------------------------------------------------------------------------
+?  nell’argomento corrisponde a un qualsiasi carattere singolo nel 
+   pathname (escluso /)
+*  nell’argomento corrisponde a una sequenza di lunghezza
+   qualsiasi (anche 0) di caratteri qualsiasi (escluso /) nel pathname
+
+[ ]: singolo carattere tra quelli elencati
+{ }: stringa tra quelle elencate
+ls -l ./thre*_[1-4].c
+ls -l ./{thr*,esercizio}_?.c
+
+--------------------------------------------------------------------------------------
+comando [argomento…] < pathname   redirezione dello standard input
+comando [argomento…] > pathname   redirezione dello standard output, cancellando il 
+                                  vecchio contenuto del file prima di scrivere
+comando [argomento…] >> pathname  redirezione dello standard output, aggiungendolo in
+                                  coda al contenuto già esistente nel file
+ls -l ../Documents/es_so/ > ./prova.txt 
+Quando si usa la redirezione in input di un file in uno script, all'interno di questo
+eseguendo read var, nella variabile var ci sarà la prima riga del file.
+eseguendo read var nuovamente, in var ci sarà la seconda riga del file.
+
+--------------------------------------------------------------------------------------
+comando1 | comando2 | … | comandoN   Lo standard output di ciascun processo è connesso 
+                                     dalla shell allo standard input del processo
+                                     successivo (usando il meccanismo delle pipe
+                                     anonime la comunicazione tra i processi)
+
+--------------------------------------------------------------------------------------
 nomevariabile=argomento    le variabili contengono sempre informazioni di tipo stringa
 $nomevariabile             la shell espande sostituendola col valore della variabile
 ${nomevariabile}           è utile quando il nome della variabile è immediatamente
@@ -366,9 +396,11 @@ nella shell una condizione è rappresentata dall’esecuzione di un programma:
 exit status $?  = 0 <-> la shell considera VERA  la condizione
 exit status $? != 0 <-> la shell considera FALSA la condizione
 
+
 ((espressione))    comando che valuta espressione come un’espressione ARITMETICA del C
                    produce un exit status che è 0 (VERO) 
                    se il valore dell’espressione è diverso da 0
+
 
 [[ operatore-unario operando ]]   valuta condizioni che riguardano stringhe o pathname
 [[ op1 operatore-binario op2 ]]   è possibile combinare più condizioni con gli 
@@ -392,6 +424,7 @@ exit status $? != 0 <-> la shell considera FALSA la condizione
 
 == e != riconoscono come speciali i caratteri ? e * solo in str2
 
+
 corrisponde a qualsiasi stringa che contiene almeno
 *[[:upper:]]*		un carattere maiuscolo
 *[[:lower:]]*  		un carattere minuscolo
@@ -401,6 +434,8 @@ corrisponde a qualsiasi stringa che contiene almeno
 *[[:space:]]* 		uno spazio
 *[[:punct:]]* 		un carattere di punteggiatura
 
+
+---------ESEMPI---------
 var="Pinco Pallino";
 [[ $var == "Pinco Pallino" ]]; echo $?   -> 0 perchè la shell considera VERA la cond
 [[ $var == Pinco\ Pall* ]];    echo $?   -> 0
