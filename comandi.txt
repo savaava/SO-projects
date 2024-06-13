@@ -4,15 +4,6 @@ regole.
 effettiva perchè la realizzazione deve essere fisica
 
 --------------------------------------------------------------------------------------
-tree
-pstree
-ps aux
-ps aux | more
-
-gcc "programma".c
-./a.out
-
---------------------------------------------------------------------------------------
 comando [argomenti…] [modificatori…]
 argomenti -> opzioni o dati 
 opzioni del comando prima degli altri argomenti, e che comincino con - o con -- 
@@ -31,7 +22,24 @@ Pathname relativi partono dalla directory corrente
 	     con username -> è il pathname della home di quell'utente
 
 --------------------------------------------------------------------------------------
-Ctrl-C: interrompe l’esecuzione di un comando;
+Quoting di un singolo carattere: il carattere speciale viene preceduto da \
+Quoting di un gruppo di caratteri: racchiudendo i caratteri in una coppia di "
+ma alcuni caratteri speciali (in particolare $) non vengono quotati
+
+In fase di espansione, la shell cancella il carattere hash #
+  
+--------------------------------------------------------------------------------------
+?  nell’argomento corrisponde a un qualsiasi carattere singolo nel 
+   pathname (escluso /)
+*  nell’argomento corrisponde a una sequenza di lunghezza
+   qualsiasi (anche 0) di caratteri qualsiasi (escluso /) nel pathname
+
+[ ]: singolo carattere tra quelli elencati
+{ }: stringa tra quelle elencate
+ls -l ./thre*_[1-4].c
+ls -l ./{thr*,esercizio}_?.c
+
+--------------------------------------------------------------------------------------Ctrl-C: interrompe l’esecuzione di un comando;
 Ctrl-S: blocca l’output che scorre sullo schermo;
 Ctrl-Q: sblocca lo stesso output.
 
@@ -67,20 +75,27 @@ Soft Link: è un puntatore indiretto a un file o a una directory. A differenza d
            filesystem o una partizione diversi.
         
 --------------------------------------------------------------------------------------
-chmod u+rwx prova.txt 
-chmod a+rwx prova.txt
+chmod [opzioni] <modalità> <file|dir>
+				modifica i permessi di accesso ai file|dir
+				(u=proprietario, g=group, o=others, a=all)
+				(r=read, w=write, x=execute)
+ci sono due <modalità>: 			
+
+<u|g|o|a><+|-><r|w|x>		<+> -> aggiunge il permesso di <r|w|x> a <u|g|o|a>
+				<-> -> toglie   il permesso di <r|w|x> a <u|g|o|a>
+				è possibile aggiungere più permessi contemporaneamente
+				
+<xxx>				3 numeri in ottale, ugnuno interpretato a 3 bit:
+				1° -> rwx di u 
+				2° -> rwx di g 
+				3° -> rwx di o 
+
+
+---------ESEMPI---------
+chmod u+rwx prova.txt
+chmod a+rw prova.txt
 chmod u+x prova.txt
 chmod 766 prova.txt
-chmod 666 prova.txt
-
-u=proprietario
-g=group
-o=others
-a=all
-
-r=read
-w=wirte 
-x=execute
 
 --------------------------------------------------------------------------------------
 less         	  permette di ispezionare i file ricevuti in input avanti e indietro
@@ -130,10 +145,13 @@ cat -b		  (-b = --number-nonblank) numera le linee non vuote
 cat -s		  (-s = --squeeze-blank) comprime le linee vuote multiple in una sola
 
 
-tail         	  mostra di default le ultime 10 righe di un file
-tail -n x    	  mostra            le ultime  x righe di un file
-head         	  mostra di default le prime  10 righe di un file
-head -n x    	  mostra            le prime   x righe di un file
+tail         	  mostra di default le ultime 10 righe di un file in input
+tail -n <x>    	  (-n = --lines) mostra le  ultime x righe
+tail -c <x>	  (-c = --bytes) mostra gli ultimi x caratteri
+
+head         	  mostra di default le prime  10 righe
+head -n <x>    	  (-n = --lines) mostra le prime x righe
+head -c <x>	  (-c = --bytes) mostra  i primi x caratteri
 
 
 mkdir <name> <name>...  crea una o più dir
@@ -196,6 +214,12 @@ awk 'pattern {action}'       utile per manipolare file di testo con colonne di d
 awk '{print $i}’             stampa l’i-ma stringa di ogni riga di del file in input
 
 
+${var:pos:len}		     Per estrarre una sottostringa da una stringa, contenuta
+${var:pos}		     in una variabile
+			     la sottostringa parte dal carattere pos della stringa e
+			     len è il numero di caratteri da estrarre
+
+
 tr [opzion…] SET1 [SET2]     Translate, squeeze, and/or delete characters from 
 			     standard input, writing to standard output. SET1 and SET2
 			     specify arrays of characters that control the action.
@@ -230,15 +254,17 @@ grep "hello w" ./prova.txt
 cat ./prova.txt | grep "hello w"
 grep "hello w" < ./prova.txt
 
+basename -s .sh $(find ./ -maxdepth 1 -name "*.sh" -type f)
+
+var="hello world"; echo ${var:2:6}; echo "la stringa originale: ${var:0}"
+
 echo -e "Ciao\nMondo\nhello" | grep "[[:upper:]]" | tr [:upper:] [:lower:]
 
 echo -e "scale=3 \n 12/7; scale=5; e(1)" | bc -l
 echo 12.0/3 | bc -l
 
-basename -s .sh $(find ./ -maxdepth 1 -name "*.sh" -type f)
-
 --------------------------------------------------------------------------------------
-find <pathname> <pathname> ... [opzione] [opzione] ...
+find <pathname> <pathname> ... [opzioni] 
 
 -maxdepth <n>	il comando lavora al massimo fino a n levels di dir dopo il punto di 
 		partenza. -maxdepth 1 significa che find opera solo su pathname
@@ -299,27 +325,6 @@ find ./ -ctime +9 -iname "*kk.c" -delete
 find $1 -maxdepth 1 -iname "*$2*" -type f -exec mv {} $3 \;
 find $1 -maxdepth 1 -iname "*$2*" -type f -ok mv {} $3 \;
 
---------------------------------------------------------------------------------------
-Quoting di un singolo carattere: il carattere speciale viene preceduto da \
-Quoting di un gruppo di caratteri: racchiudendo i caratteri in una coppia di "
-ma alcuni caratteri speciali (in particolare $) non vengono quotati
-
-#
-echo Salve, mondo \# Saluta tutti
-In fase di espansione, la shell cancella il carattere # (detto hash) (a meno
-che non sia quotato) e tutti i caratteri seguenti fino alla fine della linea
-usato per commentare
-  
---------------------------------------------------------------------------------------
-?  nell’argomento corrisponde a un qualsiasi carattere singolo nel 
-   pathname (escluso /)
-*  nell’argomento corrisponde a una sequenza di lunghezza
-   qualsiasi (anche 0) di caratteri qualsiasi (escluso /) nel pathname
-
-[ ]: singolo carattere tra quelli elencati
-{ }: stringa tra quelle elencate
-ls -l ./thre*_[1-4].c
-ls -l ./{thr*,esercizio}_?.c
 
 --------------------------------------------------------------------------------------
 comando [argomento…] < pathname   redirezione dello standard input
@@ -327,7 +332,7 @@ comando [argomento…] > pathname   redirezione dello standard output, cancellan
                                   vecchio contenuto del file prima di scrivere
 comando [argomento…] >> pathname  redirezione dello standard output, aggiungendolo in
                                   coda al contenuto già esistente nel file
-ls -l ../Documents/es_so/ > ./prova.txt 
+                                  
 Quando si usa la redirezione in input di un file in uno script, all'interno di questo
 eseguendo read var, nella variabile var ci sarà la prima riga del file.
 eseguendo read var nuovamente, in var ci sarà la seconda riga del file.
@@ -349,7 +354,7 @@ ls -l ${var}ds/
 export var		   i processi figlio erediteranno questa var e la potranno 
 			   usare come le altre variabili d'ambiente
 export var=valore          direttamente
---------------------------------------------------------------------------------------
+
 $                     per vedere all'interno, per espandere
 
 cat /etc/shells       elenco shell disponibili
