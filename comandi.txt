@@ -315,7 +315,9 @@ find ./ ../threads -iname "*r*_*.*"
 		
 find ./ -maxdepth 1 -name "*ript*.sh" -type f -ctime -1 | wc -l
 basename -a $(find ./ ../threads -maxdepth 1 -name "*_*" -type f -cmin +60)
+
 basename -s .sh $(find ./ -maxdepth 1 -name "*ript*.sh" -type f -size +700c)
+find ./ -maxdepth 1 -name "*ript*.sh" -type f -size +700c -exec basename -s .txt {} \;
 
 find ../Documents/es_so/ ./ -type f -mtime -7		     
 			     
@@ -324,6 +326,7 @@ find ./ -ctime +9 -iname "*kk.c" -delete
 
 find $1 -maxdepth 1 -iname "*$2*" -type f -exec mv {} $3 \;
 find $1 -maxdepth 1 -iname "*$2*" -type f -ok mv {} $3 \;
+find ./ -maxdepth 1 -name "*il*" -exec basename -s .txt {} \;
 
 --------------------------------------------------------------------------------------
 comando [argomento…] < pathname   redirezione dello standard input
@@ -413,9 +416,9 @@ exit status $? != 0 <-> la shell considera FALSA la condizione
 [[ -e pathname ]]     # VERO se ﬁle/directory esiste
 [[ -d pathname ]]     # VERO se pathname indica una directory
 [[ -f pathname ]]     # VERO se pathname indica un  ﬁle
-[[ -x pathname ]]     # VERO se pathname ha il permesso di esec      per questo utente
 [[ -r pathname ]]     # VERO se pathname ha il permesso di lettura   per questo utente
 [[ -w pathname ]]     # VERO se pathname ha il permesso di scrittura per questo utente
+[[ -x pathname ]]     # VERO se pathname ha il permesso di esec      per questo utente
 [[ -z stringa ]]      # VERO se la stringa     è vuota
 [[ -n stringa ]]      # VERO se la stringa non è vuota 
 
