@@ -149,7 +149,7 @@ tail         	  mostra di default le ultime 10 righe di un file in input
 tail -n <x>    	  (-n = --lines) mostra le  ultime x righe
 tail -c <x>	  (-c = --bytes) mostra gli ultimi x caratteri
 
-head         	  mostra di default le prime  10 righe
+head         	  mostra di default le prime  10 righe di un file in input
 head -n <x>    	  (-n = --lines) mostra le prime x righe
 head -c <x>	  (-c = --bytes) mostra  i primi x caratteri
 
