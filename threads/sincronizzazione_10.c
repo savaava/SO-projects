@@ -1,92 +1,97 @@
-/*Esercizio 10 (Sincronizzazione)
-Scrivere un programma in C che crea due thread secondari Il primo thread incrementa una variabile
-intera conteggio ogni 3 secondi, stampando il suo valore ad ogni incremento. Il secondo thread aspetta
-che la variabile conteggio raggiunga il valore 10; quando accade, la rimette a 0 e stampa un messaggio;
-dopodiché ricomincia da capo. Il thread principale resta in attesa (infinita) che i due thread secondari
-terminino.
-NOTA BENE: questo non è un problema produttore/consumatore; ma anche in questo caso abbiamo:
-• l’accesso a una risorsa condivisa (la variabile conteggio) da parte dei due thread;
-• l’attesa di una condizione che dipende dal valore della risorsa condivisa, da parte del secondo
-thread.*/
+/*Si realizzi un programma in C che crea due thread secondari
 
+ Il primo thread incrementa una variabile intera conteggio ogni 3 secondi, stampando il suo
+valore ad ogni incremento
+
+ Il secondo thread aspetta che la variabile conteggio raggiunga il valore 10; quando ciò
+accade, la rimette a 0 e stampa un messaggio; dopodiché ricomincia da capo.
+
+ Il thread principale resta in attesa (infinita) che i due thread secondari terminino.
+
+ NOTA BENE: questo non è un problema produttore/consumatore; ma anche in questo caso
+abbiamo:
+
+ l’accesso a una risorsa condivisa (la variabile conteggio) da parte dei due thread
+
+ l’attesa di una condizione che dipende dal valore della risorsa condivisa, da parte del
+secondo thread
+*/
 #include <stdio.h>
-#include <unistd.h>
+#include <stdlib.h>
 #include <pthread.h>
+#include <unistd.h>
 
-#define THREADS 2
-#define ATTESA 1
-#define LIMITE 10
+#define NUM_THREAD 2
+#define attesa_incremento 1
+#define limite_incremento 10
 
-typedef struct {
-    int conteggio;
-    pthread_mutex_t mutex;
-    pthread_cond_t limite_raggiunto;
-} TStrutturaConteggio;
+typedef struct{
+    int *conteggio;
+    pthread_mutex_t *mutex;
+    pthread_cond_t limite;
+}Tstruct;
 
-void *incrementa_conteggio(void *arg);
-void *controlla_limite(void *arg);
-
+void *incremento(void*arg);
+void *reset(void *arg);
 
 int main(){
-    TStrutturaConteggio dato;
-    dato.conteggio=0;
-    pthread_mutex_init(&dato.mutex,NULL);
-    pthread_cond_init(&dato.limite_raggiunto,NULL);
+    Tstruct buff;
+    buff.conteggio=(int*)malloc(sizeof(int));
+    *buff.conteggio=0;
+    pthread_mutex_t m;
+    buff.mutex=&m;
+    pthread_mutex_init(&m,NULL);
+    pthread_cond_init(&buff.limite,NULL);
     
-    pthread_t tid[THREADS];
-    int i;
+    pthread_t tid1,tid2;
     
-    if(pthread_create(tid, NULL, incrementa_conteggio, &dato) !=0){
-        fprintf(stderr,"Errore nella creazione di un thread\n");
-        return 1;
-    }
-    if(pthread_create(tid+1, NULL, controlla_limite, &dato) !=0){
-        fprintf(stderr,"Errore nella creazione di un thread\n");
-        return 1;
-    }
-
-    for(int i=0; i<THREADS; i++)
-        pthread_join(tid[i],NULL); 
-        //attesa infinita, perchè in questo modo finchè i thread non finiscono il main non riprende
-        
+    pthread_create(&tid1,NULL,incremento,&buff);
+    pthread_create(&tid2,NULL,reset,&buff);
+    
+    pthread_join(tid1,NULL);
+    pthread_join(tid2,NULL);
+    
+    return 0;
 }
+/*Il primo thread incrementa una variabile intera conteggio ogni 3 secondi, stampando il suo
+valore ad ogni incremento
 
-void *incrementa_conteggio(void *arg){
-    TStrutturaConteggio*dato=(TStrutturaConteggio*)arg;
+ Il secondo thread aspetta che la variabile conteggio raggiunga il valore 10; quando ciò
+accade, la rimette a 0 e stampa un messaggio; dopodiché ricomincia da capo.*/
+void *incremento(void*arg){
+    Tstruct*buff=(Tstruct*)arg;
     
     while(1){
-        pthread_mutex_lock(&dato->mutex);
+        pthread_mutex_lock(buff->mutex);
         
-        //sezione critica
-        dato->conteggio++;
-        printf("Conteggio corrente= %d\n",dato->conteggio);
+        while(*buff->conteggio==limite_incremento){
+            pthread_cond_wait(&buff->limite,buff->mutex);
+        }
         
-        pthread_cond_signal(&dato->limite_raggiunto);
-        pthread_mutex_unlock(&dato->mutex);
-        sleep(ATTESA);
+        printf("thread incremento -> buff->conteggio=%d\n",*buff->conteggio);
+        (*buff->conteggio)++;
+        
+        pthread_mutex_unlock(buff->mutex);
+        pthread_cond_signal(&buff->limite);
+        sleep(attesa_incremento);
     }
 }
-void *controlla_limite(void *arg){
-    TStrutturaConteggio*dato=(TStrutturaConteggio*)arg;
+void *reset(void *arg){
+    Tstruct*buff=(Tstruct*)arg;
     
     while(1){
-        pthread_mutex_lock(&dato->mutex);
+        pthread_mutex_lock(buff->mutex);
         
-        while(dato->conteggio!=LIMITE)
-            pthread_cond_wait(&dato->limite_raggiunto, &dato->mutex);
+        while(*buff->conteggio<limite_incremento){
+            pthread_cond_wait(&buff->limite,buff->mutex);
+        }
         
-        dato->conteggio=0;
-        printf("Conteggio rimessa a %d\n",dato->conteggio);
+        printf("thread reset   -> buff->conteggio=%d\n",*buff->conteggio);
+        *buff->conteggio=0;
         
-        pthread_mutex_unlock(&dato->mutex);
+        pthread_mutex_unlock(buff->mutex);
+        pthread_cond_signal(&buff->limite);
     }
 }
-
-
-
-
-
-
-
 
 
