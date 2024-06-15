@@ -39,7 +39,8 @@ In fase di espansione, la shell cancella il carattere hash #
 ls -l ./thre*_[1-4].c
 ls -l ./{thr*,esercizio}_?.c
 
---------------------------------------------------------------------------------------Ctrl-C: interrompe l’esecuzione di un comando;
+--------------------------------------------------------------------------------------
+Ctrl-C: interrompe l’esecuzione di un comando;
 Ctrl-S: blocca l’output che scorre sullo schermo;
 Ctrl-Q: sblocca lo stesso output.
 
@@ -277,20 +278,20 @@ find <pathname> <pathname> ... [opzioni]
 		shell!)
 -iname <nome>	stesso effetto di -name, ma non è case sensitive
 
--type <x>	tipo consente di selezionare tutti i pathname di elementi che
+-type <f|d|l>	tipo consente di selezionare tutti i pathname di elementi che
 		corrispondono a un certo tipo: 
 		f -> file regolari 
 		d -> directory
 		l -> link simbolici
 
 -empty 		consente di selezionare tutti i file di dimensione 0 
--size <n> 	consente di selezionare i pathname in base alla dimensione; la
-		dimensione è specificata tramite un numero seguito da un’unità che può
-		essere: c (caratteri), k (kilobyte), M (megabyte), G (gigabyte); se la 
-		dimensione è preceduta da +, sono selezionati i file più grandi della 
-		dimensione specificata; se è preceduta da -, i file più piccoli della 
-		dimensione specificata; altrimenti sono selezionati i file esattamente 
-		della dimensione specificata
+-size <n> 	consente di selezionare  i pathname di  size=n
+		<+n> -> sono selezionati i pathname con size>n
+		<-n> -> sono selezionati i pathname con size<n
+		<n>c -> size interpretata come caratteri (Byte)
+		<n>k -> size interpretata come kilobyte
+		<n>M -> size interpretata come Megabyte
+		<n>G -> size interpretata come Gigabyte
 
 -ctime <n> 	consente di selezionare i pathname creati n giorni fa
 		<+n> -> sono selezionati i file più vecchi della data specificata
