@@ -219,6 +219,11 @@ ${var:pos:len}		     Per estrarre una sottostringa da una stringa, contenuta
 ${var:pos}		     in una variabile
 			     la sottostringa parte dal carattere pos della stringa e
 			     len è il numero di caratteri da estrarre
+			     
+echo `expr index "$stringa" <carattere>`
+			     restituisce la posizione della prima occorenza di
+			     <carattere> trovata nella stringa. 
+			     se non lo trova restituisce 0.
 
 
 tr SET1 [SET2]     Translate, squeeze, and/or delete characters from 
