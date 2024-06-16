@@ -11,14 +11,9 @@ if [[ ! -d $1 ]]; then
 	exit 1
 fi 
 
-cd $1 #per evitare di modificare anche i nomi delle cartelle che eventualmente possono avere delle maiuscole
-
-for file in $(find ./ -maxdepth 1 -type f); do
-	if [[ $file == *[[:upper:]]* ]]; then
-		newfile=$(echo $file | tr A-Z a-z)
-		echo -e "$file -> $newfile"
-		mv $file $newfile
-	fi
+for name in $(find $1 -maxdepth 1 -name "*[[:upper:]]*" -type f -exec basename {} \;); do
+    new_name=$(echo $name | tr [:upper:] [:lower:])
+    mv $1/$name $1/$new_name
 done
 
 echo -e "\nI file interni alla dir $1 adesso hanno nome:"

@@ -23,8 +23,12 @@ Pathname relativi partono dalla directory corrente
 
 --------------------------------------------------------------------------------------
 Quoting di un singolo carattere: il carattere speciale viene preceduto da \
-Quoting di un gruppo di caratteri: racchiudendo i caratteri in una coppia di "
+Quoting di un gruppo di caratteri: racchiudendo i caratteri in una coppia di " o '
 ma alcuni caratteri speciali (in particolare $) non vengono quotati
+
+('') -> preservano il valore letterale di tutti i caratteri all’interno.
+("") -> preservano il valore letterale di tutti i caratteri all’interno,
+	ad eccezione di ($), (`), (\).
 
 In fase di espansione, la shell cancella il carattere hash #
   
@@ -252,6 +256,16 @@ scale=x			     x = numero di cifre decimali.
 			     con una precisione di x cifre decimali.
 
 
+sed "s/str1/str2/" <file>    (s/ -> substitute/) Trova la PRIMA occorrenza di str1 in 
+			     ogni rigo del file e la sostituisce con str2,
+sed "s/str1/str2/g" <file>   (/g -> /global) Trova TUTTE le occorrenze di str1 in ogni
+			     rigo del file e la sostituisce con str2,
+			     output -> il testo modificato, ma il file intatto.
+			     
+sed -i			     (-i = --in-place) modifica il file di origine.
+sed --in-place=<suffix>      specificando il suffisso si crea un backup
+
+
 ---------ESEMPI---------
 ls -lth
 ls -1t
@@ -268,6 +282,9 @@ echo -e "Ciao\nMondo\nhello" | grep "[[:upper:]]" | tr [:upper:] [:lower:]
 
 echo -e "scale=3 \n 12/7; scale=5; e(1)" | bc -l
 echo 12.0/3 | bc -l
+
+sed -i "s/hello/ciao/g" prova.txt; cat prova.txt
+sed --in-place=.bak "s/okok/weee/g" prova.txt; cat prova.txt prova.txt.bak
 
 --------------------------------------------------------------------------------------
 find <pathname> <pathname> ... [opzioni] 
@@ -306,7 +323,7 @@ find <pathname> <pathname> ... [opzioni]
 -mtime e -mmin  -> data di ultima modifica
 -atime e -amin  -> data di ultimo accesso
 
--print stampa                il pathname su standard output (azione di default)
+-print 		             stampa il pathname su standard output (azione di default)
 -fprint filename             scrive il pathname nel file indicato
 -delete                      rimuove il pathname con il comando rm
 -exec <comando> {} ... \;    esegue il comando specificato
@@ -330,9 +347,12 @@ find ../Documents/es_so/ ./ -type f -mtime -7
 find ./ -type f -mtime -365 -exec mv {} ../Desktop/ ";"
 find ./ -ctime +9 -iname "*kk.c" -delete
 
-find $1 -maxdepth 1 -iname "*$2*" -type f -exec mv {} $3 \;
+find $1 -maxdepth 1 -iname "*$2*" -type f -exec mv {} $3 \; -print | wc -l
 find $1 -maxdepth 1 -iname "*$2*" -type f -ok mv {} $3 \;
 find ./ -maxdepth 1 -name "*il*" -exec basename -s .txt {} \;
+
+chmod 700 $(find ./ -maxdepth 1 -name "script_*" -type f); ls -l
+find $1 -maxdepth 1 -name "$2*" -type f -exec chmod 700 {} \; -exec basename {} .sh \;
 
 --------------------------------------------------------------------------------------
 comando [argomento…] < pathname   redirezione dello standard input
