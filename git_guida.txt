@@ -12,10 +12,20 @@ ERRORE 1
 error: object file .git/objects/31/65...b0 is empty
 fatal: loose object 31...b0 (stored in .git/objects/31/65...b0) is corrupt
 
-find .git/objects/ -type f -empty | xargs rm  -> (verranno prima rimossi tutti i file oggetto vuoti che causano il danneggiamento dell'archivio nel suo complesso)
+risoluzione 1)
+find .git/objects/ -type f -empty | xargs rm  -> verranno prima rimossi tutti i file 
+						 oggetto vuoti che causano il 
+						 danneggiamento dell'archivio nel suo 
+						 complesso
 git fetch -p	       -> verranno recuperati gli oggetti mancanti
 git fsck --full        -> verrà eseguito un controllo completo dell'archivio oggetti
 
+risoluzione 2)
+git fsck --full        -> verrà eseguito un controllo completo dell'archivio oggetti,
+			  così individuo i file corrotti, ricordo dove si trovano
+			  e li elimino. Adesso devo ricaricarli nell'esatta posizione
+			  in cui si trovavano, prendendoli dal pc che non ha problemi,
+			  in cui tali file non saranno corrotti.
 --------------------------------------------------------------------------------------
 ERRORE 2
 error: Pulling is not possible because you have unmerged files.
