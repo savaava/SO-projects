@@ -23,8 +23,10 @@ fi
 
 if [[ $2 == up ]]; then
 	wc -l $(find $1 -maxdepth 1 -type f) | sort -n
+	#find $1 -maxdepth 1 -type f -exec wc -l {} \; | sort -n
 else
 	wc -l $(find $1 -maxdepth 1 -type f) | sort -nr
+	#find $1 -maxdepth 1 -type f -exec wc -l {} \; | sort -nr
 fi
 
 exit 0
