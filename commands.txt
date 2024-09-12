@@ -383,6 +383,11 @@ ${var}           		è utile quando il nome della variabile è immediatamente
 var=../Downloa
 ls -l ${var}ds/
 
+alias					mostra tutti gli alias che ho creato
+alias <alias>=<comando>	per eseguire il comando usando l'alias scelto, 
+						vale solo per la sessione corrente di uso del terminale
+unalias <alias>			per disabilitare l'alias specificato
+
 export var		   		i processi figlio erediteranno questa var e la potranno 
 			   			usare come le altre variabili d'ambiente
 export var=valore       direttamente
