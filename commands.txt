@@ -269,6 +269,14 @@ sed -i			     		(-i = --in-place) modifica il file di origine.
 sed --in-place=<suffix>     specificando il suffisso si crea un backup
 
 
+date 				mostra la data -> giorno, mese, anno, orario abbreviati
+date +"%F"			mostra la data in formato <AAAA_MM_GG>
+date +"%A"			mostra solo il giorno per intero
+date +"%a"			mostra solo il giorno abbreviato
+date +"%B"			mostra solo il mese   per intero
+date +"%b"			mostra solo il mese   abbreviato
+
+
 ---------ESEMPI---------
 ls -lth
 ls -1t
