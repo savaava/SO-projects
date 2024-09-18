@@ -44,7 +44,7 @@ if (!(Get-NetFirewallRule -Name "OpenSSH-Server-In-TCP" -ErrorAction SilentlyCon
 
 ssh <domain|username>@<servername>
 # to connect to OpenSSH Server from a Windows or Windows Server device with the OpenSSH client installed
-# servername can be an alias or an IP address 
+# servername can be an alias or an IP address
 
 
 exit
