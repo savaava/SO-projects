@@ -1,3 +1,5 @@
+# Da win PowerShell eseguito come amministratore:
+
 Get-WindowsCapability -Online | Where-Object Name -like 'OpenSSH*'
 # show OpenSSH client and server state: Installed/NotPresent
 
