@@ -40,3 +40,17 @@ if (!(Get-NetFirewallRule -Name "OpenSSH-Server-In-TCP" -ErrorAction SilentlyCon
     Write-Output "Firewall rule 'OpenSSH-Server-In-TCP' has been created and exists."
 }
 # Confirm the Firewall rule is configured. It should be created automatically by setup. Run the following to verify
+
+
+ssh <domain|username>@<servername>
+# to connect to OpenSSH Server from a Windows or Windows Server device with the OpenSSH client installed
+# servername can be an alias or an IP address 
+
+
+exit
+# to close the connection to remote servername
+
+
+scp <options> <source_path> <dest_path>
+# il percorso di dest o di source che si riferisce al computer remoto si scrive così: 
+# <username>@<servername>:<dir|file>
