@@ -46,6 +46,21 @@ ssh <domain|username>@<servername>
 # to connect to OpenSSH Server from a Windows or Windows Server device with the OpenSSH client installed
 # servername can be an alias or an IP address
 
+ssh username@hostname -p portnumber
+
+Get-PSDrive -PSProvider FileSystem
+# NON si può eseguire da remoto
+# mostra un elenco di tutte le unità del file system disponibili, il percorso radice e lo spazio used e free
+
+wmic logicaldisk get name
+# SI può eseguire da remoto
+# shows the name of each logical UNIT/disk available on the system
+
+# una volta collegato al pc remoto (  andre@DESKTOP-SO2OEP1 C:\Users\andre>  ) e si vuole navigare in 
+# un'altra unità (una partizione di un disco o proprio un altro disco) (C: D: E: V:) si usa il comando:cd 
+cd /d X:
+# (/d = "drive") X è l'unità specificata presente nel sistema remoto a cui mi sono collegato
+
 
 exit
 # to close the connection to remote servername
