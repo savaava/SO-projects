@@ -1,7 +1,9 @@
-algoritmo: procedura effettiva di calcolo descritta da un numero finita di regole che 
-conduce al risultato dopo un numero finito di passi, ossia di applicazioni delle
-regole.
-effettiva perchè la realizzazione deve essere fisica
+Shell è un termine generico che si riferisce a qualsiasi interfaccia a riga di comando
+Esistono diverse shell, come sh (Bourne Shell), csh (C Shell), ksh (Korn Shell), 
+PowerShell, bash, ... 
+
+Bash = Bourne Again SHell 
+è una shell specifica, molto diffusa nei sistemi operativi Unix-like, come Linux
 
 --------------------------------------------------------------------------------------
 comando [argomenti…] [modificatori…]
