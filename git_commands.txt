@@ -4,7 +4,9 @@ git config --system --list
 git config --local --list
 git config --get <nome_config>
 
+
 git init				crea una repository nella curr_dir (crea la sottodir .git)
+
 
 git status				mostra i commits in corso, 
 						i file in rosso ancora da aggiungere nella staging area, 
@@ -13,25 +15,41 @@ git status				mostra i commits in corso,
 						i file in rosso modificati rispetto a quelli attualmente nella staging area già aggiunti,
 						i file in verde rinominati nello staging area
 
+
+git fetch								only copies changes into your local Git repo,
+										but doesn't copy changes from the remote repo
+										directly into the working directory like pull
+
+
 git add <file>...						aggiunge i file nella staging area
 
+
 git commit -m "text"					commit dei file inseriti nella staging area
-git commit -a -m "text"					(-a = all) (-m = message) per skippare la staging area
+git commit -a -m "text"					(-a = all) (-m = message) skip staging area
 
-git ls-files							elenca tutti i file che sono attualmente tracciati nel tuo repository
 
-git rm <file>...						rimuove i file e non c'è bisogno di fare git add, pronto per git commit
+git ls-files							elenca tutti i file che sono attualmente 
+										tracciati nel tuo repository
 
-git mv <OldName_file> <NewName_file>	rinomina il file <OldName_file> e non c'è bisogno di fare git add, 
-										pronto per git commit
+
+git rm <file>...						rimuove i file e non c'è bisogno di fare git
+										add, pronto per git commit
+
+
+git mv <OldName_file> <NewName_file>	rinomina il file <OldName_file> e non c'è 
+										bisogno di fare git add, pronto per git commit
+
 
 git push
 
+
 git pull
+
 
 git reset
 
---------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------
 ERRORE 1 
 error: object file .git/objects/31/65...b0 is empty
 fatal: loose object 31...b0 (stored in .git/objects/31/65...b0) is corrupt
