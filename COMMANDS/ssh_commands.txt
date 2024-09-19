@@ -1,5 +1,6 @@
-# Da win PowerShell eseguito come amministratore:
+# Da windows PowerShell eseguito come amministratore----------------------------------------------------------------
 
+#-------------------------------------------------------------------------------------------------------------------
 Get-WindowsCapability -Online | Where-Object Name -like 'OpenSSH*'
 # show OpenSSH client and server state: Installed/NotPresent
 
@@ -41,7 +42,19 @@ if (!(Get-NetFirewallRule -Name "OpenSSH-Server-In-TCP" -ErrorAction SilentlyCon
 }
 # Confirm the Firewall rule is configured. It should be created automatically by setup. Run the following to verify
 
+#-------------------------------------------------------------------------------------------------------------------
+ipconfig 
+# per visualizzare l'ip address locale alla rete eventualemente nattata
+ipconfig /all
+# opzione /all per visualizzare più informazioni
 
+
+curl ifconfig.me
+# per visualizzare l'ip address pubblico con cui vengo localizzato dall'esterno rete
+# curl invia una richiesta HTTP al server ifconfig.me: sono sia mittente sia dest della richiesta HTTP
+# rispondo con l’indirizzo IP pubblico
+
+#-------------------------------------------------------------------------------------------------------------------
 ssh <domain|username>@<servername>
 # to connect to OpenSSH Server from a Windows or Windows Server device with the OpenSSH client installed
 # servername can be an alias or an IP address
@@ -65,7 +78,7 @@ cd /d X:
 exit
 # to close the connection to remote servername
 
-
+#-------------------------------------------------------------------------------------------------------------------
 scp <options> <source_path> <dest_path>
 # il percorso di dest o di source che si riferisce al computer remoto si scrive così: 
 # <username>@<servername>:<dir|file>
