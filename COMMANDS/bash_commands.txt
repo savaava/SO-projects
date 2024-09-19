@@ -170,8 +170,9 @@ rmdir <dir> ...    	rimuove 1 o più dir (empty)
 rm <files|dirs>   	rimuove 1 o più file o dir
 rm -r		  		(-r = --recursive)   rimuove le dir e i loro contenuti ricorsivamente
 rm -i		  		(-i = --interactive) prompt before every removal
-rm -f 		  		(-f == --force) 	 ignore nonexistent files and arguments,
+rm -f 		  		(-f = --force) 	 ignore nonexistent files and arguments,
 										 never prompt
+rm -v				(-v = --verbose) explain what is being done
 
 
 mv <source_dir|source_file> <dest_dir|dest_file> 	
@@ -190,6 +191,7 @@ cp <source_dir|source_file> <dest_dir|dest_file>
 cp -r				(-r = --recursive)   copia le dir e i loro contenuti ricorsivamente
 cp -i				(-i = --interactive) prompt before overwrite
 cp -n				(-n = --no-clobber)  non sovrascrive i file esistenti
+cp -v				(-v = --verbose) explain what is being done
 
 
 read <var> <var>... legge da tastiera 1 o più stringhe e la/le inserisce in var
